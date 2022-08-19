@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CD47BE1B28AF6D2800E2588C /* MemoEditorFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD47BE1A28AF6D2800E2588C /* MemoEditorFeature.swift */; };
+		CD7D6AB028AF354000A2F361 /* MemoListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AAF28AF354000A2F361 /* MemoListFeature.swift */; };
+		CD7D6AB228AF367600A2F361 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AB128AF367600A2F361 /* TabBarViewController.swift */; };
+		CD7D6AB828AF36F300A2F361 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AB728AF36F300A2F361 /* MyPageViewController.swift */; };
+		CD7D6ABA28AF371A00A2F361 /* BookMarkMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AB928AF371A00A2F361 /* BookMarkMemoViewController.swift */; };
+		CD7D6ABC28AF4C9100A2F361 /* TabBarFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6ABB28AF4C9100A2F361 /* TabBarFeature.swift */; };
+		CD7D6ABF28AF567700A2F361 /* MemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6ABE28AF567700A2F361 /* MemoModel.swift */; };
+		CD7D6AC128AF5EDB00A2F361 /* MemoEdiorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AC028AF5EDB00A2F361 /* MemoEdiorViewController.swift */; };
 		CD8058E628AE268F0088E2F2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8058E528AE268F0088E2F2 /* AppDelegate.swift */; };
 		CD8058E828AE268F0088E2F2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8058E728AE268F0088E2F2 /* SceneDelegate.swift */; };
 		CD8058EA28AE268F0088E2F2 /* MemoListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD8058E928AE268F0088E2F2 /* MemoListViewController.swift */; };
@@ -37,6 +45,14 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CD47BE1A28AF6D2800E2588C /* MemoEditorFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoEditorFeature.swift; sourceTree = "<group>"; };
+		CD7D6AAF28AF354000A2F361 /* MemoListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListFeature.swift; sourceTree = "<group>"; };
+		CD7D6AB128AF367600A2F361 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		CD7D6AB728AF36F300A2F361 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
+		CD7D6AB928AF371A00A2F361 /* BookMarkMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkMemoViewController.swift; sourceTree = "<group>"; };
+		CD7D6ABB28AF4C9100A2F361 /* TabBarFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarFeature.swift; sourceTree = "<group>"; };
+		CD7D6ABE28AF567700A2F361 /* MemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModel.swift; sourceTree = "<group>"; };
+		CD7D6AC028AF5EDB00A2F361 /* MemoEdiorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoEdiorViewController.swift; sourceTree = "<group>"; };
 		CD8058E228AE268F0088E2F2 /* TCA-memo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TCA-memo.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD8058E528AE268F0088E2F2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CD8058E728AE268F0088E2F2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +94,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CD7D6AB328AF368400A2F361 /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D6AB128AF367600A2F361 /* TabBarViewController.swift */,
+				CD7D6ABB28AF4C9100A2F361 /* TabBarFeature.swift */,
+			);
+			path = TabBar;
+			sourceTree = "<group>";
+		};
+		CD7D6AB428AF369200A2F361 /* MemoList */ = {
+			isa = PBXGroup;
+			children = (
+				CD8058E928AE268F0088E2F2 /* MemoListViewController.swift */,
+				CD7D6AAF28AF354000A2F361 /* MemoListFeature.swift */,
+			);
+			path = MemoList;
+			sourceTree = "<group>";
+		};
+		CD7D6AB528AF36A600A2F361 /* MyPage */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D6AB728AF36F300A2F361 /* MyPageViewController.swift */,
+			);
+			path = MyPage;
+			sourceTree = "<group>";
+		};
+		CD7D6AB628AF36AF00A2F361 /* BookmarkMemo */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D6AB928AF371A00A2F361 /* BookMarkMemoViewController.swift */,
+			);
+			path = BookmarkMemo;
+			sourceTree = "<group>";
+		};
+		CD7D6ABD28AF563800A2F361 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D6ABE28AF567700A2F361 /* MemoModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CD7D6AC228AF5EDF00A2F361 /* MemoEditor */ = {
+			isa = PBXGroup;
+			children = (
+				CD7D6AC028AF5EDB00A2F361 /* MemoEdiorViewController.swift */,
+				CD47BE1A28AF6D2800E2588C /* MemoEditorFeature.swift */,
+			);
+			path = MemoEditor;
+			sourceTree = "<group>";
+		};
 		CD8058D928AE268F0088E2F2 = {
 			isa = PBXGroup;
 			children = (
@@ -128,9 +195,14 @@
 		CD80591528AE30070088E2F2 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				CD7D6AC228AF5EDF00A2F361 /* MemoEditor */,
+				CD7D6ABD28AF563800A2F361 /* Model */,
+				CD7D6AB628AF36AF00A2F361 /* BookmarkMemo */,
+				CD7D6AB528AF36A600A2F361 /* MyPage */,
+				CD7D6AB428AF369200A2F361 /* MemoList */,
+				CD7D6AB328AF368400A2F361 /* TabBar */,
 				CD8058E528AE268F0088E2F2 /* AppDelegate.swift */,
 				CD8058E728AE268F0088E2F2 /* SceneDelegate.swift */,
-				CD8058E928AE268F0088E2F2 /* MemoListViewController.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -290,9 +362,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CD7D6AC128AF5EDB00A2F361 /* MemoEdiorViewController.swift in Sources */,
 				CD8058EA28AE268F0088E2F2 /* MemoListViewController.swift in Sources */,
+				CD7D6AB828AF36F300A2F361 /* MyPageViewController.swift in Sources */,
 				CD8058E628AE268F0088E2F2 /* AppDelegate.swift in Sources */,
+				CD7D6ABA28AF371A00A2F361 /* BookMarkMemoViewController.swift in Sources */,
+				CD7D6AB028AF354000A2F361 /* MemoListFeature.swift in Sources */,
+				CD7D6AB228AF367600A2F361 /* TabBarViewController.swift in Sources */,
+				CD7D6ABC28AF4C9100A2F361 /* TabBarFeature.swift in Sources */,
+				CD47BE1B28AF6D2800E2588C /* MemoEditorFeature.swift in Sources */,
 				CD8058E828AE268F0088E2F2 /* SceneDelegate.swift in Sources */,
+				CD7D6ABF28AF567700A2F361 /* MemoModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
