@@ -13,7 +13,20 @@ class TabBarViewController: UITabBarController {
 
         tabBar.tintColor = .systemGreen
 
-        let memoListViewController = UINavigationController(rootViewController: MemoListViewController(store: .init(initialState: MemoListState(), reducer: memoListReducer, environment: MemoListEnvironment())))
+        let memoListViewController = UINavigationController(
+            rootViewController: MemoListViewController(
+                store: .init(initialState: MemoListState(
+                    memos: [
+                        .init(memo: "memo 1"),
+                        .init(memo: "memo 2"),
+                        .init(memo: "memo 3")
+                    ]
+                ),
+                reducer: memoListReducer,
+                environment: MemoListEnvironment())
+            )
+        )
+
         memoListViewController.tabBarItem = .init(
             title: "memo",
             image: .init(systemName: "book"),

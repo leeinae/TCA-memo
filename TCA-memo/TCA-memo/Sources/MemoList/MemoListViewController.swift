@@ -13,6 +13,7 @@ import ComposableArchitecture
 class MemoListViewController: UITableViewController {
     // MARK: - Properties
 
+    private let store: Store<MemoListState, MemoListAction>
     private let viewStore: ViewStore<MemoListState, MemoListAction>
     private var cancellables: Set<AnyCancellable> = []
 
@@ -23,13 +24,14 @@ class MemoListViewController: UITableViewController {
     // MARK: - Initializer
 
     init(store: Store<MemoListState, MemoListAction>) {
+        self.store = store
         viewStore = .init(store)
 
         super.init(nibName: nil, bundle: nil)
     }
 
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -53,34 +55,44 @@ class MemoListViewController: UITableViewController {
     // MARK: - Actions
 
     @objc
-    func didTapAddButton(_ sender: UIBarButtonItem) {
+    func didTapAddButton(_: UIBarButtonItem) {
         print("add button")
         viewStore.send(.addAction)
     }
 
     func bind() {
-        viewStore.publisher.isPresentEditor
-            .sink { [weak self] isPresentEditor in
-                guard let memo = isPresentEditor else { return }
+        store.scope(
+            state: \.memoEditor,
+            action: MemoListAction.presentMemoEditor
+        ).ifLet { [weak self] store in
+            let memoEditorViewController = UINavigationController(
+                rootViewController: MemoEditorViewController(store: store)
+            )
 
-                let memoEditorStore = Store(initialState: MemoEditorState(), reducer: memoEditorReducer, environment: MemoEditorEnvironment())
-                let memoEditorViewController = MemoEdiorViewController(store: memoEditorStore)
+            self?.present(memoEditorViewController, animated: true)
+        }
+        .store(in: &cancellables)
 
-                self?.present(memoEditorViewController, animated: true, completion: nil)
+        viewStore.publisher.memos
+            .sink { [weak self] _ in
+                self?.tableView.reloadData()
             }
             .store(in: &cancellables)
     }
 }
 
 extension MemoListViewController {
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        cell.accessoryType = .checkmark
+        let memo = viewStore.memos[indexPath.row]
+
+        cell.accessoryType = memo.isBookmark ? .checkmark : .none
+        cell.textLabel?.text = memo.memo
 
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
+        viewStore.memos.count
     }
 }
