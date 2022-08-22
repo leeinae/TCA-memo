@@ -8,7 +8,6 @@
 import Foundation
 
 struct MemoModel: Equatable {
-    let id: String = UUID().uuidString
     var memo: String
     var isBookmark: Bool = false
 }

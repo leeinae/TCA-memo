@@ -9,11 +9,16 @@ import ComposableArchitecture
 
 // MARK: - State
 
-struct MemoEditorState: Equatable {}
+struct MemoEditorState: Equatable, Identifiable {
+    let id: String = UUID().uuidString
+    var memo: MemoModel
+}
 
 // MARK: - Action
 
-enum MemoEditorAction: Equatable {}
+enum MemoEditorAction: Equatable {
+    case saveMemo(MemoModel)
+}
 
 // MARK: - Environment
 
@@ -21,6 +26,10 @@ struct MemoEditorEnvironment {}
 
 // MARK: - Reducer
 
-let memoEditorReducer = Reducer<MemoEditorState, MemoEditorAction, MemoEditorEnvironment> { state, action, environment in
-    .none
+let memoEditorReducer = Reducer<MemoEditorState, MemoEditorAction, MemoEditorEnvironment> { state, action, _ in
+    switch action {
+    case let .saveMemo(memo):
+        state.memo = memo
+        return .none
+    }
 }

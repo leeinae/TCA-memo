@@ -17,9 +17,9 @@ class TabBarViewController: UITabBarController {
             rootViewController: MemoListViewController(
                 store: .init(initialState: MemoListState(
                     memos: [
-                        .init(memo: "memo 1"),
-                        .init(memo: "memo 2"),
-                        .init(memo: "memo 3")
+                        .init(memo: .init(memo: "memo 1")),
+                        .init(memo: .init(memo: "memo 2")),
+                        .init(memo: .init(memo: "memo 3"))
                     ]
                 ),
                 reducer: memoListReducer,
@@ -27,10 +27,10 @@ class TabBarViewController: UITabBarController {
             )
         )
 
-        memoListViewController.tabBarItem = .init(
+        memoListViewController.tabBarItem = UITabBarItem(
             title: "memo",
-            image: .init(systemName: "book"),
-            selectedImage: .init(systemName: "book.fill")
+            image: UIImage(systemName: "book"),
+            selectedImage: UIImage(systemName: "book.fill")
         )
 
         let bookmarkMemoViewController = UINavigationController(rootViewController: BookMarkMemoViewController())

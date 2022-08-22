@@ -61,18 +61,6 @@ class MemoListViewController: UITableViewController {
     }
 
     func bind() {
-        store.scope(
-            state: \.memoEditor,
-            action: MemoListAction.presentMemoEditor
-        ).ifLet { [weak self] store in
-            let memoEditorViewController = UINavigationController(
-                rootViewController: MemoEditorViewController(store: store)
-            )
-
-            self?.present(memoEditorViewController, animated: true)
-        }
-        .store(in: &cancellables)
-
         viewStore.publisher.memos
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
@@ -84,7 +72,7 @@ class MemoListViewController: UITableViewController {
 extension MemoListViewController {
     override func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
-        let memo = viewStore.memos[indexPath.row]
+        let memo = viewStore.memos[indexPath.row].memo
 
         cell.accessoryType = memo.isBookmark ? .checkmark : .none
         cell.textLabel?.text = memo.memo
@@ -94,5 +82,18 @@ extension MemoListViewController {
 
     override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         viewStore.memos.count
+    }
+
+    override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let memo = viewStore.memos[indexPath.row]
+
+        let memoEditorViewController = MemoEditorViewController(
+            store: store.scope(
+                state: \.memos[indexPath.row],
+                action: { .showMemo(id: memo.id, action: $0) }
+            )
+        )
+
+        navigationController?.pushViewController(memoEditorViewController, animated: true)
     }
 }

@@ -10,16 +10,16 @@ import ComposableArchitecture
 // MARK: - State
 
 struct MemoListState: Equatable {
-    var memos: [MemoModel] = []
+    var memos: IdentifiedArrayOf<MemoEditorState> = []
     var memoEditor: MemoEditorState? = nil
 }
 
 // MARK: - Action
 
 enum MemoListAction {
+    case showMemo(id: MemoEditorState.ID, action: MemoEditorAction)
     case addAction
-    case presentMemoEditor(MemoEditorAction)
-    case dismissMemoEditor
+    case editAction
 }
 
 // MARK: - Environment
@@ -28,16 +28,9 @@ struct MemoListEnvironment {}
 
 // MARK: - Reducer
 
-let memoListReducer = Reducer<MemoListState, MemoListAction, MemoListEnvironment> { state, action, _ in
-    switch action {
-    case .addAction:
-        state.memoEditor = MemoEditorState()
-        return .none
-    case .presentMemoEditor:
-        state.memoEditor = MemoEditorState()
-        return .none
-    case .dismissMemoEditor:
-        state.memoEditor = nil
-        return .none
-    }
-}
+let memoListReducer: Reducer<MemoListState, MemoListAction, MemoListEnvironment> =
+    memoEditorReducer.forEach(
+        state: \MemoListState.memos,
+        action: /MemoListAction.showMemo(id:action:),
+        environment: { _ in MemoEditorEnvironment() }
+    )
