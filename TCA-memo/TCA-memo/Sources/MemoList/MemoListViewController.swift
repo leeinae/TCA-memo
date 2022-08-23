@@ -68,6 +68,22 @@ class MemoListViewController: UITableViewController {
                 self?.tableView.reloadData()
             }
             .store(in: &cancellables)
+
+        viewStore.publisher.memoEditor
+            .sink { [weak self] editor in
+                guard editor != nil else { return }
+
+                let memoEditorViewController = MemoEditorViewController(
+                    store: .init(
+                        initialState: MemoEditorState(memo: .init(memo: "")),
+                        reducer: memoEditorReducer,
+                        environment: MemoEditorEnvironment()
+                    )
+                )
+
+                self?.present(UINavigationController(rootViewController: memoEditorViewController), animated: true)
+            }
+            .store(in: &cancellables)
     }
 }
 

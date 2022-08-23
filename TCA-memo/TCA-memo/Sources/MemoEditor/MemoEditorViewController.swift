@@ -75,6 +75,7 @@ class MemoEditorViewController: UIViewController {
         textView.layer.borderColor = UIColor.systemGray5.cgColor
         textView.layer.borderWidth = 2.0
         textView.font = .systemFont(ofSize: 18)
+        textView.delegate = self
     }
 
     func setupLayout() {
@@ -95,6 +96,12 @@ class MemoEditorViewController: UIViewController {
             .store(in: &cancellabel)
 
         viewStore.publisher.memo
+            .memo
+            .map { !$0.isEmpty }
+            .assign(to: \.isEnabled, on: saveButtonItem)
+            .store(in: &cancellabel)
+
+        viewStore.publisher.memo
             .isBookmark
             .map { $0 ? UIImage(systemName: "bookmark.fill") : UIImage(systemName: "bookmark") }
             .assign(to: \.image, on: bookmarkButtonItem)
@@ -104,7 +111,7 @@ class MemoEditorViewController: UIViewController {
     // MARK: - Actions
 
     @objc
-    func didTapCancelButton(_: UIBarButtonItem) {
+    func didTapCancelButton(_ sender: UIBarButtonItem) {
         dismiss(animated: true, completion: nil)
     }
 
@@ -116,10 +123,19 @@ class MemoEditorViewController: UIViewController {
     }
 
     @objc
-    func didTapSaveButton(_: UIBarButtonItem) {
-        let newMemo = MemoModel(memo: textView.text)
-        
+    func didTapSaveButton(_ sender: UIBarButtonItem) {
+        let isBookmark = viewStore.memo.isBookmark
+        let newMemo = MemoModel(memo: textView.text, isBookmark: isBookmark)
+
         viewStore.send(.saveMemo(newMemo))
         dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MemoEditorViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        saveButtonItem.isEnabled = !text.isEmpty || (range.length < textView.text.count)
+
+        return true
     }
 }

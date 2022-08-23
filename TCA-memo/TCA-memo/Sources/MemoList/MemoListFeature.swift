@@ -19,7 +19,6 @@ struct MemoListState: Equatable {
 enum MemoListAction {
     case showMemo(id: MemoEditorState.ID, action: MemoEditorAction)
     case addAction
-    case editAction
 }
 
 // MARK: - Environment
@@ -34,3 +33,12 @@ let memoListReducer: Reducer<MemoListState, MemoListAction, MemoListEnvironment>
         action: /MemoListAction.showMemo(id:action:),
         environment: { _ in MemoEditorEnvironment() }
     )
+    .combined(with: Reducer<MemoListState, MemoListAction, MemoListEnvironment> { state, action, env in
+        switch action {
+        case .addAction:
+            state.memoEditor = MemoEditorState(memo: .init(memo: "", isBookmark: false))
+            return .none
+        case let .showMemo(id: id, action: action):
+            return .none
+        }
+    })
