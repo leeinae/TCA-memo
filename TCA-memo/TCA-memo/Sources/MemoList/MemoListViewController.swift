@@ -55,7 +55,7 @@ class MemoListViewController: UITableViewController {
     // MARK: - Actions
 
     @objc
-    func didTapAddButton(_: UIBarButtonItem) {
+    func didTapAddButton(_ sender: UIBarButtonItem) {
         print("add button")
         viewStore.send(.addAction)
     }

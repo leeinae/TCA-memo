@@ -7,7 +7,24 @@
 
 import UIKit
 
+import ComposableArchitecture
+
 class TabBarViewController: UITabBarController {
+    let store: Store<TabBarState, TabBarAction>
+    let viewStore: ViewStore<TabBarState, TabBarAction>
+
+    init(store: Store<TabBarState, TabBarAction>) {
+        self.store = store
+        viewStore = ViewStore(store)
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -19,7 +36,7 @@ class TabBarViewController: UITabBarController {
                     memos: [
                         .init(memo: .init(memo: "memo 1")),
                         .init(memo: .init(memo: "memo 2")),
-                        .init(memo: .init(memo: "memo 3"))
+                        .init(memo: .init(memo: "memo 3")),
                     ]
                 ),
                 reducer: memoListReducer,
@@ -53,5 +70,16 @@ class TabBarViewController: UITabBarController {
             myPageViewController,
         ],
         animated: true)
+    }
+
+    func bind() {}
+}
+
+extension TabBarViewController {
+    private var memoListStore: Store<MemoListState, MemoListAction> {
+        store.scope(
+            state: \.memoListState,
+            action: TabBarAction.memoListAction
+        )
     }
 }
