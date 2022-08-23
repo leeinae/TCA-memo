@@ -27,6 +27,13 @@ class MemoEditorViewController: UIViewController {
         action: #selector(didTapCancelButton(_:))
     )
 
+    lazy var bookmarkButtonItem: UIBarButtonItem = .init(
+        image: UIImage(systemName: "bookmark"),
+        style: .plain,
+        target: self,
+        action: #selector(didTapBookmarkButton(_:))
+    )
+
     lazy var saveButtonItem: UIBarButtonItem = .init(
         title: "Save",
         style: .done,
@@ -62,7 +69,7 @@ class MemoEditorViewController: UIViewController {
     func setupProperty() {
         view.backgroundColor = .white
 
-        navigationItem.leftBarButtonItem = cancelButtonItem
+        navigationItem.leftBarButtonItems = [cancelButtonItem, bookmarkButtonItem]
         navigationItem.rightBarButtonItem = saveButtonItem
 
         textView.layer.borderColor = UIColor.systemGray5.cgColor
@@ -79,10 +86,18 @@ class MemoEditorViewController: UIViewController {
         }
     }
 
+    // MARK: - Bind
+
     func bind() {
         viewStore.publisher.memo
-            .map { $0.memo }
+            .memo
             .assign(to: \.text, on: textView)
+            .store(in: &cancellabel)
+
+        viewStore.publisher.memo
+            .isBookmark
+            .map { $0 ? UIImage(systemName: "bookmark.fill") : UIImage(systemName: "bookmark") }
+            .assign(to: \.image, on: bookmarkButtonItem)
             .store(in: &cancellabel)
     }
 
@@ -94,8 +109,17 @@ class MemoEditorViewController: UIViewController {
     }
 
     @objc
+    func didTapBookmarkButton(_ sender: UIBarButtonItem) {
+        let isBookmark = !viewStore.memo.isBookmark
+
+        viewStore.send(.setBookmark(isBookmark))
+    }
+
+    @objc
     func didTapSaveButton(_: UIBarButtonItem) {
-        print("save button")
+        let newMemo = MemoModel(memo: textView.text)
+        
+        viewStore.send(.saveMemo(newMemo))
         dismiss(animated: true, completion: nil)
     }
 }

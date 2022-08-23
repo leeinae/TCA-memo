@@ -60,6 +60,8 @@ class MemoListViewController: UITableViewController {
         viewStore.send(.addAction)
     }
 
+    // MARK: - Bind
+
     func bind() {
         viewStore.publisher.memos
             .sink { [weak self] _ in
@@ -74,6 +76,7 @@ extension MemoListViewController {
         let cell = UITableViewCell()
         let memo = viewStore.memos[indexPath.row].memo
 
+        cell.selectionStyle = .none
         cell.accessoryType = memo.isBookmark ? .checkmark : .none
         cell.textLabel?.text = memo.memo
 
@@ -93,7 +96,7 @@ extension MemoListViewController {
                 action: { .showMemo(id: memo.id, action: $0) }
             )
         )
-        
-        self.present(UINavigationController(rootViewController: memoEditorViewController), animated: true)
+
+        present(UINavigationController(rootViewController: memoEditorViewController), animated: true)
     }
 }
