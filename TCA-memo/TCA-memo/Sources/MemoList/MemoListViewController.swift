@@ -93,7 +93,7 @@ extension MemoListViewController {
                 action: { .showMemo(id: memo.id, action: $0) }
             )
         )
-
-        navigationController?.pushViewController(memoEditorViewController, animated: true)
+        
+        self.present(UINavigationController(rootViewController: memoEditorViewController), animated: true)
     }
 }

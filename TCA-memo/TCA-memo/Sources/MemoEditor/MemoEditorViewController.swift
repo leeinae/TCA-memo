@@ -9,6 +9,7 @@ import Combine
 import UIKit
 
 import ComposableArchitecture
+import SnapKit
 
 class MemoEditorViewController: UIViewController {
     // MARK: - Properties
@@ -16,10 +17,24 @@ class MemoEditorViewController: UIViewController {
     let store: Store<MemoEditorState, MemoEditorAction>
     let viewStore: ViewStore<MemoEditorState, MemoEditorAction>
 
+    var cancellabel: Set<AnyCancellable> = []
+
     // MARK: - UI Components
 
-    lazy var cancelButtonItem: UIBarButtonItem = .init(barButtonSystemItem: .cancel, target: nil, action: nil)
-    lazy var saveButtonItem: UIBarButtonItem = .init(title: "Save", style: .done, target: self, action: #selector(didTapSaveButton(_:)))
+    lazy var cancelButtonItem: UIBarButtonItem = .init(
+        barButtonSystemItem: .cancel,
+        target: self,
+        action: #selector(didTapCancelButton(_:))
+    )
+
+    lazy var saveButtonItem: UIBarButtonItem = .init(
+        title: "Save",
+        style: .done,
+        target: self,
+        action: #selector(didTapSaveButton(_:))
+    )
+
+    let textView: UITextView = .init()
 
     // MARK: - Initializer
 
@@ -39,6 +54,9 @@ class MemoEditorViewController: UIViewController {
         super.viewDidLoad()
 
         setupProperty()
+        setupLayout()
+
+        bind()
     }
 
     func setupProperty() {
@@ -46,9 +64,34 @@ class MemoEditorViewController: UIViewController {
 
         navigationItem.leftBarButtonItem = cancelButtonItem
         navigationItem.rightBarButtonItem = saveButtonItem
+
+        textView.layer.borderColor = UIColor.systemGray5.cgColor
+        textView.layer.borderWidth = 2.0
+        textView.font = .systemFont(ofSize: 18)
+    }
+
+    func setupLayout() {
+        view.addSubview(textView)
+
+        textView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
+            make.leading.trailing.bottom.equalToSuperview().inset(20)
+        }
+    }
+
+    func bind() {
+        viewStore.publisher.memo
+            .map { $0.memo }
+            .assign(to: \.text, on: textView)
+            .store(in: &cancellabel)
     }
 
     // MARK: - Actions
+
+    @objc
+    func didTapCancelButton(_: UIBarButtonItem) {
+        dismiss(animated: true, completion: nil)
+    }
 
     @objc
     func didTapSaveButton(_: UIBarButtonItem) {
