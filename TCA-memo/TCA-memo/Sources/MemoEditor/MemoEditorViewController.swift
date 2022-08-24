@@ -66,6 +66,12 @@ class MemoEditorViewController: UIViewController {
         bind()
     }
 
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+
+        viewStore.send(.dismiss)
+    }
+
     func setupProperty() {
         view.backgroundColor = .white
 

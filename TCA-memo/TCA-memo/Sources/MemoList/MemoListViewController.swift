@@ -69,20 +69,13 @@ class MemoListViewController: UITableViewController {
             }
             .store(in: &cancellables)
 
-        viewStore.publisher.memoEditor
-            .sink { [weak self] editor in
-                guard editor != nil else { return }
-
-                let memoEditorViewController = MemoEditorViewController(
-                    store: .init(
-                        initialState: MemoEditorState(memo: .init(memo: "")),
-                        reducer: memoEditorReducer,
-                        environment: MemoEditorEnvironment()
-                    )
-                )
+        store
+            .scope(state: \.memoEditor, action: MemoListAction.memoAppendAction)
+            .ifLet(then: { [weak self] editor in
+                let memoEditorViewController = MemoEditorViewController(store: editor)
 
                 self?.present(UINavigationController(rootViewController: memoEditorViewController), animated: true)
-            }
+            })
             .store(in: &cancellables)
     }
 }
@@ -109,7 +102,7 @@ extension MemoListViewController {
         let memoEditorViewController = MemoEditorViewController(
             store: store.scope(
                 state: \.memos[indexPath.row],
-                action: { .showMemo(id: memo.id, action: $0) }
+                action: { .memoEditorAction(id: memo.id, action: $0) }
             )
         )
 
