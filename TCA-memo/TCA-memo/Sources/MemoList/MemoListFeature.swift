@@ -28,14 +28,21 @@ struct MemoListEnvironment {}
 
 // MARK: - Reducer
 
-let memoListReducer: Reducer<MemoListState, MemoListAction, MemoListEnvironment> =
+let memoListReducer = Reducer<MemoListState, MemoListAction, MemoListEnvironment>.combine(
     /// ientified array의 elem에서 동작하는 reducer를 pullback
     memoEditorReducer.forEach(
         state: \MemoListState.memos,
         action: /MemoListAction.memoEditorAction(id:action:),
         environment: { _ in MemoEditorEnvironment() }
-    )
-    .combined(with: Reducer<MemoListState, MemoListAction, MemoListEnvironment> { state, action, env in
+    ),
+    memoEditorReducer
+        .optional()
+        .pullback(
+            state: \MemoListState.memoEditor,
+            action: /MemoListAction.memoAppendAction,
+            environment: { _ in MemoEditorEnvironment() }
+        ),
+    .init { state, action, env in
         switch action {
         case .addAction:
             state.memoEditor = MemoEditorState(memo: .init(memo: "", isBookmark: false))
@@ -54,4 +61,5 @@ let memoListReducer: Reducer<MemoListState, MemoListAction, MemoListEnvironment>
                 return .none
             }
         }
-    })
+    }
+)
