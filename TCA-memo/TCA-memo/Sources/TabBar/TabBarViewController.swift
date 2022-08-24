@@ -32,34 +32,28 @@ class TabBarViewController: UITabBarController {
 
         let memoListViewController = UINavigationController(
             rootViewController: MemoListViewController(
-                store: .init(initialState: MemoListState(
-                    memos: [
-                        .init(memo: .init(memo: "memo 1")),
-                        .init(memo: .init(memo: "memo 2")),
-                        .init(memo: .init(memo: "memo 3")),
-                    ]
-                ),
-                reducer: memoListReducer,
-                environment: MemoListEnvironment())
+                store: memoListStore
             )
         )
-
         memoListViewController.tabBarItem = UITabBarItem(
-            title: "memo",
+            title: TabBarType.memoList.rawValue,
             image: UIImage(systemName: "book"),
             selectedImage: UIImage(systemName: "book.fill")
         )
 
-        let bookmarkMemoViewController = UINavigationController(rootViewController: BookMarkMemoViewController())
+        let bookmarkMemoViewController = UINavigationController(
+            rootViewController: BookMarkMemoViewController(
+                store: bookmarkStore)
+        )
         bookmarkMemoViewController.tabBarItem = .init(
-            title: "bookmark",
+            title: TabBarType.bookmark.rawValue,
             image: .init(systemName: "bookmark"),
             selectedImage: .init(systemName: "bookmark.fill")
         )
 
         let myPageViewController = MyPageViewController()
         myPageViewController.tabBarItem = .init(
-            title: "person",
+            title: TabBarType.mypage.rawValue,
             image: .init(systemName: "person"),
             selectedImage: .init(systemName: "person.fill")
         )
@@ -80,6 +74,20 @@ extension TabBarViewController {
         store.scope(
             state: \.memoListState,
             action: TabBarAction.memoListAction
+        )
+    }
+
+    private var bookmarkStore: Store<BookmarkState, BookmarkAction> {
+        store.scope(
+            state: \.bookmarkState,
+            action: TabBarAction.bookmarkAction
+        )
+    }
+
+    private var myPageStore: Store<MyPageState, MyPageAction> {
+        store.scope(
+            state: \.myPageState,
+            action: TabBarAction.myPageAction
         )
     }
 }

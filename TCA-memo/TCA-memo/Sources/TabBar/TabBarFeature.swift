@@ -9,10 +9,10 @@ import ComposableArchitecture
 
 // MARK: - TabBarType
 
-enum TabBarType {
-    case memoList
-    case bookmark
-    case mypage
+enum TabBarType: String {
+    case memoList = "Memo"
+    case bookmark = "Bookmark"
+    case mypage = "My Page"
 }
 
 // MARK: - State
@@ -20,7 +20,14 @@ enum TabBarType {
 struct TabBarState: Equatable {
     var selectedTab: TabBarType = .memoList
 
-    var memoListState: MemoListState = .init()
+    var memoListState: MemoListState = .init(
+        memos: [
+            .init(memo: .init(memo: "memo 1")),
+            .init(memo: .init(memo: "memo 2")),
+            .init(memo: .init(memo: "memo 3")),
+        ],
+        memoEditor: nil
+    )
     var bookmarkState: BookmarkState = .init()
     var myPageState: MyPageState = .init()
 }
@@ -28,8 +35,6 @@ struct TabBarState: Equatable {
 // MARK: - Action
 
 enum TabBarAction {
-    case setSelectedTabBar(TabBarType)
-
     case memoListAction(MemoListAction)
     case bookmarkAction(BookmarkAction)
     case myPageAction(MyPageAction)
@@ -66,9 +71,6 @@ let tabBarReducer = Reducer<
         ),
     Reducer { state, action, environment in
         switch action {
-        case let .setSelectedTabBar(selectedTab):
-            state.selectedTab = selectedTab
-            return .none
         case .memoListAction:
             return .none
         case .bookmarkAction:
