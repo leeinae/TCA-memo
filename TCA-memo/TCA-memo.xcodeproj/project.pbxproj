@@ -9,11 +9,11 @@
 /* Begin PBXBuildFile section */
 		CD47BE1B28AF6D2800E2588C /* MemoEditorFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD47BE1A28AF6D2800E2588C /* MemoEditorFeature.swift */; };
 		CD47BE1D28B4D67700E2588C /* MyPageFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD47BE1C28B4D67700E2588C /* MyPageFeature.swift */; };
-		CD47BE1F28B4D72700E2588C /* BookmarkFeatrue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD47BE1E28B4D72700E2588C /* BookmarkFeatrue.swift */; };
+		CD47BE1F28B4D72700E2588C /* PokemonWikiFeatrue.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD47BE1E28B4D72700E2588C /* PokemonWikiFeatrue.swift */; };
 		CD7D6AB028AF354000A2F361 /* MemoListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AAF28AF354000A2F361 /* MemoListFeature.swift */; };
 		CD7D6AB228AF367600A2F361 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AB128AF367600A2F361 /* TabBarViewController.swift */; };
 		CD7D6AB828AF36F300A2F361 /* MyPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AB728AF36F300A2F361 /* MyPageViewController.swift */; };
-		CD7D6ABA28AF371A00A2F361 /* BookMarkMemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AB928AF371A00A2F361 /* BookMarkMemoViewController.swift */; };
+		CD7D6ABA28AF371A00A2F361 /* PokemonWikiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AB928AF371A00A2F361 /* PokemonWikiViewController.swift */; };
 		CD7D6ABC28AF4C9100A2F361 /* TabBarFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6ABB28AF4C9100A2F361 /* TabBarFeature.swift */; };
 		CD7D6ABF28AF567700A2F361 /* MemoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6ABE28AF567700A2F361 /* MemoModel.swift */; };
 		CD7D6AC128AF5EDB00A2F361 /* MemoEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD7D6AC028AF5EDB00A2F361 /* MemoEditorViewController.swift */; };
@@ -27,6 +27,9 @@
 		CD80590928AE269B0088E2F2 /* TCA_memoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD80590828AE269B0088E2F2 /* TCA_memoUITestsLaunchTests.swift */; };
 		CD80591A28AE31790088E2F2 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = CD80591928AE31790088E2F2 /* ComposableArchitecture */; };
 		CD80591D28AE32160088E2F2 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = CD80591C28AE32160088E2F2 /* SnapKit */; };
+		CDD9BE7428BF5CE200A7393C /* PokemonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD9BE7328BF5CE200A7393C /* PokemonCollectionViewCell.swift */; };
+		CDD9BE7628BF5CEA00A7393C /* ItemCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD9BE7528BF5CEA00A7393C /* ItemCollectionViewCell.swift */; };
+		CDD9BE7828BF5CF600A7393C /* TypeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDD9BE7728BF5CF600A7393C /* TypeCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,11 +52,11 @@
 /* Begin PBXFileReference section */
 		CD47BE1A28AF6D2800E2588C /* MemoEditorFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoEditorFeature.swift; sourceTree = "<group>"; };
 		CD47BE1C28B4D67700E2588C /* MyPageFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageFeature.swift; sourceTree = "<group>"; };
-		CD47BE1E28B4D72700E2588C /* BookmarkFeatrue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkFeatrue.swift; sourceTree = "<group>"; };
+		CD47BE1E28B4D72700E2588C /* PokemonWikiFeatrue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonWikiFeatrue.swift; sourceTree = "<group>"; };
 		CD7D6AAF28AF354000A2F361 /* MemoListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoListFeature.swift; sourceTree = "<group>"; };
 		CD7D6AB128AF367600A2F361 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		CD7D6AB728AF36F300A2F361 /* MyPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPageViewController.swift; sourceTree = "<group>"; };
-		CD7D6AB928AF371A00A2F361 /* BookMarkMemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookMarkMemoViewController.swift; sourceTree = "<group>"; };
+		CD7D6AB928AF371A00A2F361 /* PokemonWikiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonWikiViewController.swift; sourceTree = "<group>"; };
 		CD7D6ABB28AF4C9100A2F361 /* TabBarFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarFeature.swift; sourceTree = "<group>"; };
 		CD7D6ABE28AF567700A2F361 /* MemoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoModel.swift; sourceTree = "<group>"; };
 		CD7D6AC028AF5EDB00A2F361 /* MemoEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoEditorViewController.swift; sourceTree = "<group>"; };
@@ -69,6 +72,9 @@
 		CD80590228AE269B0088E2F2 /* TCA-memoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "TCA-memoUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CD80590628AE269B0088E2F2 /* TCA_memoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCA_memoUITests.swift; sourceTree = "<group>"; };
 		CD80590828AE269B0088E2F2 /* TCA_memoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCA_memoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		CDD9BE7328BF5CE200A7393C /* PokemonCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokemonCollectionViewCell.swift; sourceTree = "<group>"; };
+		CDD9BE7528BF5CEA00A7393C /* ItemCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCollectionViewCell.swift; sourceTree = "<group>"; };
+		CDD9BE7728BF5CF600A7393C /* TypeCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TypeCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,13 +131,16 @@
 			path = MyPage;
 			sourceTree = "<group>";
 		};
-		CD7D6AB628AF36AF00A2F361 /* BookmarkMemo */ = {
+		CD7D6AB628AF36AF00A2F361 /* PokemonWiki */ = {
 			isa = PBXGroup;
 			children = (
-				CD7D6AB928AF371A00A2F361 /* BookMarkMemoViewController.swift */,
-				CD47BE1E28B4D72700E2588C /* BookmarkFeatrue.swift */,
+				CD7D6AB928AF371A00A2F361 /* PokemonWikiViewController.swift */,
+				CD47BE1E28B4D72700E2588C /* PokemonWikiFeatrue.swift */,
+				CDD9BE7328BF5CE200A7393C /* PokemonCollectionViewCell.swift */,
+				CDD9BE7528BF5CEA00A7393C /* ItemCollectionViewCell.swift */,
+				CDD9BE7728BF5CF600A7393C /* TypeCollectionViewCell.swift */,
 			);
-			path = BookmarkMemo;
+			path = PokemonWiki;
 			sourceTree = "<group>";
 		};
 		CD7D6ABD28AF563800A2F361 /* Model */ = {
@@ -202,7 +211,7 @@
 			children = (
 				CD7D6AC228AF5EDF00A2F361 /* MemoEditor */,
 				CD7D6ABD28AF563800A2F361 /* Model */,
-				CD7D6AB628AF36AF00A2F361 /* BookmarkMemo */,
+				CD7D6AB628AF36AF00A2F361 /* PokemonWiki */,
 				CD7D6AB528AF36A600A2F361 /* MyPage */,
 				CD7D6AB428AF369200A2F361 /* MemoList */,
 				CD7D6AB328AF368400A2F361 /* TabBar */,
@@ -360,16 +369,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CDD9BE7828BF5CF600A7393C /* TypeCollectionViewCell.swift in Sources */,
+				CDD9BE7628BF5CEA00A7393C /* ItemCollectionViewCell.swift in Sources */,
 				CD7D6AC128AF5EDB00A2F361 /* MemoEditorViewController.swift in Sources */,
 				CD8058EA28AE268F0088E2F2 /* MemoListViewController.swift in Sources */,
 				CD7D6AB828AF36F300A2F361 /* MyPageViewController.swift in Sources */,
 				CD8058E628AE268F0088E2F2 /* AppDelegate.swift in Sources */,
-				CD7D6ABA28AF371A00A2F361 /* BookMarkMemoViewController.swift in Sources */,
+				CD7D6ABA28AF371A00A2F361 /* PokemonWikiViewController.swift in Sources */,
 				CD47BE1D28B4D67700E2588C /* MyPageFeature.swift in Sources */,
-				CD47BE1F28B4D72700E2588C /* BookmarkFeatrue.swift in Sources */,
+				CD47BE1F28B4D72700E2588C /* PokemonWikiFeatrue.swift in Sources */,
 				CD7D6AB028AF354000A2F361 /* MemoListFeature.swift in Sources */,
 				CD7D6AB228AF367600A2F361 /* TabBarViewController.swift in Sources */,
 				CD7D6ABC28AF4C9100A2F361 /* TabBarFeature.swift in Sources */,
+				CDD9BE7428BF5CE200A7393C /* PokemonCollectionViewCell.swift in Sources */,
 				CD47BE1B28AF6D2800E2588C /* MemoEditorFeature.swift in Sources */,
 				CD8058E828AE268F0088E2F2 /* SceneDelegate.swift in Sources */,
 				CD7D6ABF28AF567700A2F361 /* MemoModel.swift in Sources */,

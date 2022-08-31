@@ -28,7 +28,7 @@ struct TabBarState: Equatable {
         ],
         memoEditor: nil
     )
-    var bookmarkState: BookmarkState = .init()
+    var bookmarkState: WikiState = .init()
     var myPageState: MyPageState = .init()
 }
 
@@ -36,7 +36,7 @@ struct TabBarState: Equatable {
 
 enum TabBarAction {
     case memoListAction(MemoListAction)
-    case bookmarkAction(BookmarkAction)
+    case bookmarkAction(WikiAction)
     case myPageAction(MyPageAction)
 }
 
@@ -61,7 +61,7 @@ let tabBarReducer = Reducer<
         .pullback(
             state: \.bookmarkState,
             action: /TabBarAction.bookmarkAction,
-            environment: { _ in BookmarkEnvironment() }
+            environment: { _ in WikiEnvironment() }
         ),
     myPageReducer
         .pullback(

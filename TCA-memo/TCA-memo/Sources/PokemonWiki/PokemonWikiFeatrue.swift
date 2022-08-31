@@ -9,22 +9,22 @@ import ComposableArchitecture
 
 // MARK: - State
 
-struct BookmarkState: Equatable {}
+struct WikiState: Equatable {}
 
 // MARK: - Action
 
-enum BookmarkAction {}
+enum WikiAction {}
 
 // MARK: - Environment
 
-struct BookmarkEnvironment {}
+struct WikiEnvironment {}
 
 // MARK: - Reducer
 
 let bookmarkReducer = Reducer<
-    BookmarkState,
-    BookmarkAction,
-    BookmarkEnvironment
+    WikiState,
+    WikiAction,
+    WikiEnvironment
 > { state, action, environment in
     .none
 }
