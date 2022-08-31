@@ -42,7 +42,7 @@ class TabBarViewController: UITabBarController {
         )
 
         let bookmarkMemoViewController = UINavigationController(
-            rootViewController: BookMarkMemoViewController(
+            rootViewController: PokemonWikiViewController(
                 store: bookmarkStore)
         )
         bookmarkMemoViewController.tabBarItem = .init(
@@ -77,7 +77,7 @@ extension TabBarViewController {
         )
     }
 
-    private var bookmarkStore: Store<BookmarkState, BookmarkAction> {
+    private var bookmarkStore: Store<WikiState, WikiAction> {
         store.scope(
             state: \.bookmarkState,
             action: TabBarAction.bookmarkAction
