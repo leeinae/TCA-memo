@@ -5,6 +5,7 @@
 //  Created by Devsisters on 2022/08/18.
 //
 
+import ComposableArchitecture
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
@@ -15,9 +16,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        let tabBarStore: Store<TabBarState, TabBarAction> = .init(
+            initialState: TabBarState(),
+            reducer: tabBarReducer,
+            environment: TabBarEnvironment()
+        )
 
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = TabBarViewController()
+        window?.rootViewController = TabBarViewController(store: tabBarStore)
         window?.makeKeyAndVisible()
     }
 

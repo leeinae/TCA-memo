@@ -55,16 +55,27 @@ class MemoListViewController: UITableViewController {
     // MARK: - Actions
 
     @objc
-    func didTapAddButton(_: UIBarButtonItem) {
+    func didTapAddButton(_ sender: UIBarButtonItem) {
         print("add button")
         viewStore.send(.addAction)
     }
+
+    // MARK: - Bind
 
     func bind() {
         viewStore.publisher.memos
             .sink { [weak self] _ in
                 self?.tableView.reloadData()
             }
+            .store(in: &cancellables)
+
+        store
+            .scope(state: \.memoEditor, action: MemoListAction.memoAppendAction)
+            .ifLet(then: { [weak self] editor in
+                let memoEditorViewController = MemoEditorViewController(store: editor)
+
+                self?.present(UINavigationController(rootViewController: memoEditorViewController), animated: true)
+            })
             .store(in: &cancellables)
     }
 }
@@ -74,6 +85,7 @@ extension MemoListViewController {
         let cell = UITableViewCell()
         let memo = viewStore.memos[indexPath.row].memo
 
+        cell.selectionStyle = .none
         cell.accessoryType = memo.isBookmark ? .checkmark : .none
         cell.textLabel?.text = memo.memo
 
@@ -90,10 +102,10 @@ extension MemoListViewController {
         let memoEditorViewController = MemoEditorViewController(
             store: store.scope(
                 state: \.memos[indexPath.row],
-                action: { .showMemo(id: memo.id, action: $0) }
+                action: { .memoEditorAction(id: memo.id, action: $0) }
             )
         )
 
-        navigationController?.pushViewController(memoEditorViewController, animated: true)
+        present(UINavigationController(rootViewController: memoEditorViewController), animated: true)
     }
 }

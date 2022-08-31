@@ -17,9 +17,9 @@ struct MemoListState: Equatable {
 // MARK: - Action
 
 enum MemoListAction {
-    case showMemo(id: MemoEditorState.ID, action: MemoEditorAction)
+    case memoEditorAction(id: MemoEditorState.ID, action: MemoEditorAction)
+    case memoAppendAction(MemoEditorAction)
     case addAction
-    case editAction
 }
 
 // MARK: - Environment
@@ -28,9 +28,38 @@ struct MemoListEnvironment {}
 
 // MARK: - Reducer
 
-let memoListReducer: Reducer<MemoListState, MemoListAction, MemoListEnvironment> =
+let memoListReducer = Reducer<MemoListState, MemoListAction, MemoListEnvironment>.combine(
+    /// ientified array의 elem에서 동작하는 reducer를 pullback
     memoEditorReducer.forEach(
         state: \MemoListState.memos,
-        action: /MemoListAction.showMemo(id:action:),
+        action: /MemoListAction.memoEditorAction(id:action:),
         environment: { _ in MemoEditorEnvironment() }
-    )
+    ),
+    memoEditorReducer
+        .optional()
+        .pullback(
+            state: \MemoListState.memoEditor,
+            action: /MemoListAction.memoAppendAction,
+            environment: { _ in MemoEditorEnvironment() }
+        ),
+    .init { state, action, env in
+        switch action {
+        case .addAction:
+            state.memoEditor = MemoEditorState(memo: .init(memo: "", isBookmark: false))
+            return .none
+        case let .memoEditorAction(id: id, action: action):
+            return .none
+        case let .memoAppendAction(memo):
+            switch memo {
+            case let .saveMemo(model):
+                state.memos.append(.init(memo: model))
+                return .none
+            case .setBookmark:
+                return .none
+            case .dismiss:
+                state.memoEditor = nil
+                return .none
+            }
+        }
+    }
+)

@@ -18,6 +18,8 @@ struct MemoEditorState: Equatable, Identifiable {
 
 enum MemoEditorAction: Equatable {
     case saveMemo(MemoModel)
+    case setBookmark(Bool)
+    case dismiss
 }
 
 // MARK: - Environment
@@ -30,6 +32,11 @@ let memoEditorReducer = Reducer<MemoEditorState, MemoEditorAction, MemoEditorEnv
     switch action {
     case let .saveMemo(memo):
         state.memo = memo
+        return .none
+    case let .setBookmark(flag):
+        state.memo.isBookmark = flag
+        return .none
+    case .dismiss:
         return .none
     }
 }
