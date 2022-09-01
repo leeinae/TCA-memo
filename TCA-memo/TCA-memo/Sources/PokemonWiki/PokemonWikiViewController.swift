@@ -196,14 +196,15 @@ extension PokemonWikiViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
 
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .absolute(100),
-            heightDimension: .absolute(100)
+            widthDimension: .fractionalWidth(1.0 / 3.0),
+            heightDimension: .fractionalWidth(1.0 / 3.0)
         )
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .groupPaging
-        section.contentInsets = .init(top: 10, leading: 0, bottom: 10, trailing: 0)
+        section.orthogonalScrollingBehavior = .continuous
+        section.contentInsets = .init(top: 10.0, leading: 20.0, bottom: 10.0, trailing: 20.0)
+        section.interGroupSpacing = 15.0
 
         return section
     }
@@ -211,18 +212,19 @@ extension PokemonWikiViewController {
     func generateTypeLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .absolute(100.0)
+            heightDimension: .fractionalHeight(1.0)
         )
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        item.contentInsets = .init(top: 5, leading: 5, bottom: 5, trailing: 5)
+        item.contentInsets = .init(top: 0.0, leading: 20.0, bottom: 0.0, trailing: 20.0)
 
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalHeight(1.0)
+            heightDimension: .absolute(100.0)
         )
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 10.0
 
         return section
     }
