@@ -111,7 +111,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
         switch WikiSection.allCases[section] {
         case .pokemon: return viewStore.pokemons.count
         case .items: return viewStore.items.count
-        case .types: return 10
+        case .types: return viewStore.types.count
         }
     }
 
@@ -138,6 +138,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                 withReuseIdentifier: String(describing: TypeCollectionViewCell.self),
                 for: indexPath
             ) as? TypeCollectionViewCell else { return UICollectionViewCell() }
+            cell.type = viewStore.types[indexPath.row]
 
             return cell
         }
@@ -153,6 +154,12 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
         viewStore.publisher.items
             .sink { [weak self] _ in
                 self?.collectionView.reloadSections(.init(integer: 1))
+            }
+            .store(in: &cancellables)
+
+        viewStore.publisher.types
+            .sink { [weak self] _ in
+                self?.collectionView.reloadSections(.init(integer: 2))
             }
             .store(in: &cancellables)
     }

@@ -49,7 +49,7 @@ final class PokemonService {
             }
             .eraseToAnyPublisher()
     }
-    
+
     func fetchItem(id: Int) -> AnyPublisher<ItemResponseModel, Error> {
         let url = "https://pokeapi.co/api/v2/item/\(id)"
 
@@ -78,4 +78,31 @@ final class PokemonService {
             .eraseToAnyPublisher()
     }
 
+    func fetchType(id: Int) -> AnyPublisher<TypeResponseModel, Error> {
+        let url = "https://pokeapi.co/api/v2/type/\(id)"
+
+        return alamofire
+            .request(
+                url,
+                method: .get,
+                parameters: nil,
+                encoding: JSONEncoding.default
+            )
+            .validate(statusCode: 200 ..< 300)
+            .publishData()
+            .tryMap { response -> TypeResponseModel in
+                switch response.result {
+                case let .success(data):
+                    do {
+                        return try
+                            JSONDecoder().decode(TypeResponseModel.self, from: data)
+                    } catch {
+                        throw NetworkError.parsingError
+                    }
+                case .failure:
+                    throw NetworkError.serverError
+                }
+            }
+            .eraseToAnyPublisher()
+    }
 }

@@ -10,6 +10,7 @@ import Foundation
 // MARK: - ItemResponseModel
 
 struct ItemResponseModel: Codable {
+    let id: Int
     let attributes: [Category]
     let babyTriggerFor: String?
     let category: Category
@@ -19,7 +20,6 @@ struct ItemResponseModel: Codable {
     let flingEffect, flingPower: String?
     let gameIndices: [ItemGameIndex]
     let heldByPokemon: [JSONAny]
-    let id: Int
     let machines: [JSONAny]
     let name: String
     let names: [Name]
