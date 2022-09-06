@@ -57,7 +57,7 @@ let tabBarReducer = Reducer<
             action: /TabBarAction.memoListAction,
             environment: { _ in MemoListEnvironment() }
         ),
-    bookmarkReducer
+    wikiReducer
         .pullback(
             state: \.bookmarkState,
             action: /TabBarAction.bookmarkAction,
@@ -69,7 +69,7 @@ let tabBarReducer = Reducer<
             action: /TabBarAction.myPageAction,
             environment: { _ in MyPageEnvironment() }
         ),
-    Reducer { state, action, environment in
+    Reducer { _, action, _ in
         switch action {
         case .memoListAction:
             return .none

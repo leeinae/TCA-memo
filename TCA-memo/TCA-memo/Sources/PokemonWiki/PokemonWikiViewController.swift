@@ -5,8 +5,10 @@
 //  Created by Devsisters on 2022/08/19.
 //
 
-import ComposableArchitecture
 import UIKit
+import Combine
+
+import ComposableArchitecture
 
 class PokemonWikiViewController: UIViewController {
     // MARK: - SubTypes
@@ -19,8 +21,9 @@ class PokemonWikiViewController: UIViewController {
 
     // MARK: - Properties
 
-    let store: Store<WikiState, WikiAction>
-    let viewStore: ViewStore<WikiState, WikiAction>
+    private let store: Store<WikiState, WikiAction>
+    private let viewStore: ViewStore<WikiState, WikiAction>
+    private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - UI Components
 
@@ -56,15 +59,18 @@ class PokemonWikiViewController: UIViewController {
     }
 
     @available(*, unavailable)
-    required init?(coder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        viewStore.send(.viewDidLoad)
+
         setupProperty()
         setupUI()
+        bind()
     }
 
     private func setupProperty() {
@@ -97,13 +103,13 @@ class PokemonWikiViewController: UIViewController {
 // MARK: - UICollectionViewDataSource
 
 extension PokemonWikiViewController: UICollectionViewDataSource {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in _: UICollectionView) -> Int {
         WikiSection.allCases.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch WikiSection.allCases[section] {
-        case .pokemon: return 10
+        case .pokemon: return viewStore.pokemons.count
         case .items: return 10
         case .types: return 10
         }
@@ -116,6 +122,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                 withReuseIdentifier: String(describing: PokemonCollectionViewCell.self),
                 for: indexPath
             ) as? PokemonCollectionViewCell else { return UICollectionViewCell() }
+            cell.pokemon = viewStore.pokemons[indexPath.row]
 
             return cell
         case .items:
@@ -133,6 +140,14 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
 
             return cell
         }
+    }
+
+    func bind() {
+        viewStore.publisher.pokemons
+            .sink { [weak self] _ in
+                self?.collectionView.reloadSections(.init(integer: 0))
+            }
+            .store(in: &cancellables)
     }
 }
 
@@ -178,7 +193,7 @@ extension PokemonWikiViewController {
 
         return section
     }
-    
+
     func generateTypeLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
@@ -194,9 +209,7 @@ extension PokemonWikiViewController {
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
 
         let section = NSCollectionLayoutSection(group: group)
-        section.orthogonalScrollingBehavior = .continuous
 
         return section
     }
-
 }
