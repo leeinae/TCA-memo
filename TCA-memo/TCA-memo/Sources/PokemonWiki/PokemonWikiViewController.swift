@@ -5,8 +5,8 @@
 //  Created by Devsisters on 2022/08/19.
 //
 
-import UIKit
 import Combine
+import UIKit
 
 import ComposableArchitecture
 
@@ -110,7 +110,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
     func collectionView(_: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch WikiSection.allCases[section] {
         case .pokemon: return viewStore.pokemons.count
-        case .items: return 10
+        case .items: return viewStore.items.count
         case .types: return 10
         }
     }
@@ -130,6 +130,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                 withReuseIdentifier: String(describing: ItemCollectionViewCell.self),
                 for: indexPath
             ) as? ItemCollectionViewCell else { return UICollectionViewCell() }
+            cell.item = viewStore.items[indexPath.row]
 
             return cell
         case .types:
@@ -146,6 +147,12 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
         viewStore.publisher.pokemons
             .sink { [weak self] _ in
                 self?.collectionView.reloadSections(.init(integer: 0))
+            }
+            .store(in: &cancellables)
+
+        viewStore.publisher.items
+            .sink { [weak self] _ in
+                self?.collectionView.reloadSections(.init(integer: 1))
             }
             .store(in: &cancellables)
     }
