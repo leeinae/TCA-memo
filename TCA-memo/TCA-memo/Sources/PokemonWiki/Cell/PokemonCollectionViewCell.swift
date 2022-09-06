@@ -33,14 +33,14 @@ class PokemonCollectionViewCell: UICollectionViewCell {
 
     private let statLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .heavy)
+        label.font = .systemFont(ofSize: 18, weight: .medium)
 
         return label
     }()
 
     private let typeLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 18, weight: .heavy)
+        label.font = .systemFont(ofSize: 18, weight: .medium)
 
         return label
     }()
