@@ -44,15 +44,22 @@ let wikiReducer = Reducer<
     switch action {
     case .viewDidLoad:
         return Effect.merge(
-            environment.pokemonService
-                .fetchPokemon(id: 1)
-                .catchToEffect(WikiAction.pokemonDataLoaded),
-            environment.pokemonService
-                .fetchItem(id: 1)
-                .catchToEffect(WikiAction.itemDataLoaded),
-            environment.pokemonService
-                .fetchType(id: 1)
-                .catchToEffect(WikiAction.typeDataLoaded)
+            [(0 ... 10).map {
+                environment.pokemonService
+                    .fetchPokemon(id: $0)
+                    .catchToEffect(WikiAction.pokemonDataLoaded)
+            },
+            (0 ... 10).map {
+                environment.pokemonService
+                    .fetchItem(id: $0)
+                    .catchToEffect(WikiAction.itemDataLoaded)
+            },
+            (0 ... 10).map {
+                environment.pokemonService
+                    .fetchType(id: $0)
+                    .catchToEffect(WikiAction.typeDataLoaded)
+            }]
+                .flatMap { $0 }
         )
     case let .pokemonDataLoaded(response):
         switch response {
