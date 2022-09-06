@@ -22,8 +22,8 @@ final class PokemonService {
         alamofire = sesseion
     }
 
-    func fetchPokemon() -> AnyPublisher<PokemonResponseModel, Error> {
-        let url = "https://pokeapi.co/api/v2/pokemon/3"
+    func fetchPokemon(id: Int) -> AnyPublisher<PokemonResponseModel, Error> {
+        let url = "https://pokeapi.co/api/v2/pokemon/\(id)"
 
         return alamofire
             .request(
