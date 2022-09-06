@@ -1,13 +1,6 @@
-//
-//  PokemonResponse.swift
-//  TCA-memo
-//
-//  Created by inae Lee on 2022/09/06.
-//
-
 import Foundation
 
-// MARK: - PokemonResponse
+// MARK: - PokemonResponseModel
 
 struct PokemonResponseModel: Codable {
     let abilities: [Ability]
@@ -162,8 +155,14 @@ struct Versions: Codable {
 // MARK: - Sprites
 
 class Sprites: Codable {
-    let backDefault, backFemale, backShiny, backShinyFemale: String
-    let frontDefault, frontFemale, frontShiny, frontShinyFemale: String
+    let backDefault: String?
+    let backFemale: String?
+    let backShiny: String?
+    let backShinyFemale: String?
+    let frontDefault: String?
+    let frontFemale: String?
+    let frontShiny: String?
+    let frontShinyFemale: String?
     let other: Other?
     let versions: Versions?
     let animated: Sprites?
@@ -178,20 +177,6 @@ class Sprites: Codable {
         case frontShiny = "front_shiny"
         case frontShinyFemale = "front_shiny_female"
         case other, versions, animated
-    }
-
-    init(backDefault: String, backFemale: String, backShiny: String, backShinyFemale: String, frontDefault: String, frontFemale: String, frontShiny: String, frontShinyFemale: String, other: Other?, versions: Versions?, animated: Sprites?) {
-        self.backDefault = backDefault
-        self.backFemale = backFemale
-        self.backShiny = backShiny
-        self.backShinyFemale = backShinyFemale
-        self.frontDefault = frontDefault
-        self.frontFemale = frontFemale
-        self.frontShiny = frontShiny
-        self.frontShinyFemale = frontShinyFemale
-        self.other = other
-        self.versions = versions
-        self.animated = animated
     }
 }
 
@@ -289,7 +274,7 @@ struct Emerald: Codable {
 // MARK: - Home
 
 struct Home: Codable {
-    let frontDefault, frontFemale, frontShiny, frontShinyFemale: String
+    let frontDefault, frontFemale, frontShiny, frontShinyFemale: String?
 
     enum CodingKeys: String, CodingKey {
         case frontDefault = "front_default"
@@ -314,8 +299,8 @@ struct GenerationVii: Codable {
 // MARK: - DreamWorld
 
 struct DreamWorld: Codable {
-    let frontDefault: String
-    let frontFemale: JSONNull?
+    let frontDefault: String?
+    let frontFemale: String?
 
     enum CodingKeys: String, CodingKey {
         case frontDefault = "front_default"
@@ -346,7 +331,7 @@ struct Other: Codable {
 // MARK: - OfficialArtwork
 
 struct OfficialArtwork: Codable {
-    let frontDefault: String
+    let frontDefault: String?
 
     enum CodingKeys: String, CodingKey {
         case frontDefault = "front_default"
@@ -401,7 +386,7 @@ class JSONNull: Codable, Hashable {
 class JSONCodingKey: CodingKey {
     let key: String
 
-    required init?(intValue _: Int) {
+    required init?(intValue: Int) {
         nil
     }
 

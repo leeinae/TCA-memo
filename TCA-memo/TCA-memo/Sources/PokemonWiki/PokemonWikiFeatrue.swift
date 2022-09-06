@@ -39,14 +39,14 @@ let wikiReducer = Reducer<
 > { state, action, environment in
     switch action {
     case .viewDidLoad:
-        return environment.pokemonService.fetchPokemon()
+        return environment.pokemonService
+            .fetchPokemon(id: 1)
             .catchToEffect(WikiAction.dataLoaded)
     case let .dataLoaded(response):
         switch response {
         case let .success(result):
             let pokemon = result.convertToModel()
             state.pokemons.append(pokemon)
-            print(state.pokemons)
         case .failure: break /// 에러 처리
         }
         return .none
