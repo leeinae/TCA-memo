@@ -41,11 +41,11 @@ class TabBarViewController: UITabBarController {
             selectedImage: UIImage(systemName: "book.fill")
         )
 
-        let bookmarkMemoViewController = UINavigationController(
+        let pokemonWikiViewController = UINavigationController(
             rootViewController: PokemonWikiViewController(
                 store: bookmarkStore)
         )
-        bookmarkMemoViewController.tabBarItem = .init(
+        pokemonWikiViewController.tabBarItem = .init(
             title: TabBarType.bookmark.rawValue,
             image: .init(systemName: "bookmark"),
             selectedImage: .init(systemName: "bookmark.fill")
@@ -60,7 +60,7 @@ class TabBarViewController: UITabBarController {
 
         setViewControllers([
             memoListViewController,
-            bookmarkMemoViewController,
+            pokemonWikiViewController,
             myPageViewController,
         ],
         animated: true)
