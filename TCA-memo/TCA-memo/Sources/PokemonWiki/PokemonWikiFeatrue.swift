@@ -11,13 +11,15 @@ import ComposableArchitecture
 
 struct WikiState: Equatable {
     var pokemons: IdentifiedArrayOf<Pokemon> = []
+    var items: IdentifiedArrayOf<Item> = []
 }
 
 // MARK: - Action
 
 enum WikiAction {
     case viewDidLoad
-    case dataLoaded(Result<PokemonResponseModel, Error>)
+    case pokemonDataLoaded(Result<PokemonResponseModel, Error>)
+    case itemDataLoaded(Result<ItemResponseModel, Error>)
 }
 
 // MARK: - Environment
@@ -39,14 +41,27 @@ let wikiReducer = Reducer<
 > { state, action, environment in
     switch action {
     case .viewDidLoad:
-        return environment.pokemonService
-            .fetchPokemon(id: 1)
-            .catchToEffect(WikiAction.dataLoaded)
-    case let .dataLoaded(response):
+        return Effect.merge(
+            environment.pokemonService
+                .fetchPokemon(id: 1)
+                .catchToEffect(WikiAction.pokemonDataLoaded),
+            environment.pokemonService
+                .fetchItem(id: 1)
+                .catchToEffect(WikiAction.itemDataLoaded)
+        )
+    case let .pokemonDataLoaded(response):
         switch response {
         case let .success(result):
             let pokemon = result.convertToModel()
             state.pokemons.append(pokemon)
+        case .failure: break /// 에러 처리
+        }
+        return .none
+    case let .itemDataLoaded(response):
+        switch response {
+        case let .success(result):
+            let item = result.convertToModel()
+            state.items.append(item)
         case .failure: break /// 에러 처리
         }
         return .none

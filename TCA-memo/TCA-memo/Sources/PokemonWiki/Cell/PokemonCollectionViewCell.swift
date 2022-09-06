@@ -58,7 +58,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupUI() {
+    private func setupUI() {
         backgroundColor = .systemGray5
 
         [nameLabel, statLabel, typeLabel, image]
@@ -85,7 +85,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    func setupPokemon(_ pokemon: Pokemon) {
+    private func setupPokemon(_ pokemon: Pokemon) {
         nameLabel.text = pokemon.name
         statLabel.text = pokemon.stat
         typeLabel.text = pokemon.type
