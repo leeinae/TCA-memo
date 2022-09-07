@@ -5,6 +5,8 @@
 //  Created by Devsisters on 2022/08/19.
 //
 
+import Foundation
+
 import ComposableArchitecture
 
 // MARK: - State

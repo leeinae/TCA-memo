@@ -5,6 +5,8 @@
 //  Created by Devsisters on 2022/08/23.
 //
 
+import Foundation
+
 import ComposableArchitecture
 
 // MARK: - State
@@ -19,7 +21,10 @@ struct WikiState: Equatable {
 
 enum WikiAction {
     case viewDidLoad
+
     case pokemonDataLoaded(Result<PokemonResponseModel, Error>)
+    case tapPokemonLikeButton(Int, Bool)
+
     case itemDataLoaded(Result<ItemResponseModel, Error>)
     case typeDataLoaded(Result<TypeResponseModel, Error>)
 }
@@ -59,7 +64,7 @@ let wikiReducer = Reducer<
                     .fetchType(id: $0)
                     .catchToEffect(WikiAction.typeDataLoaded)
             }]
-                .flatMap { $0 }
+            .flatMap { $0 }
         )
     case let .pokemonDataLoaded(response):
         switch response {
@@ -69,6 +74,18 @@ let wikiReducer = Reducer<
         case .failure: break /// 에러 처리
         }
         return .none
+    case let .tapPokemonLikeButton(index, isLiked):
+        guard let oldPokemon = state.pokemons[id: index] else { return .none }
+        state.pokemons[id: index] = Pokemon(
+            id: oldPokemon.id,
+            name: oldPokemon.name,
+            stat: oldPokemon.stat,
+            image: oldPokemon.image,
+            type: oldPokemon.type,
+            isLiked: isLiked
+        )
+        return .none
+
     case let .itemDataLoaded(response):
         switch response {
         case let .success(result):
