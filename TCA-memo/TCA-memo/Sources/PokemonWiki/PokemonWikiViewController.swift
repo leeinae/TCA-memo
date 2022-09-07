@@ -123,6 +123,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                 for: indexPath
             ) as? PokemonCollectionViewCell else { return UICollectionViewCell() }
             cell.pokemon = viewStore.pokemons[indexPath.row]
+            cell.viewStore = viewStore
 
             return cell
         case .items:

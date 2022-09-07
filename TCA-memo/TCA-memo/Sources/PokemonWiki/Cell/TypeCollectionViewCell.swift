@@ -53,12 +53,12 @@ class TypeCollectionViewCell: UICollectionViewCell {
         [nameLabel, pokemonLabel].forEach { contentView.addSubview($0) }
 
         nameLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(24)
+            make.top.leading.trailing.equalToSuperview().inset(24)
         }
 
         pokemonLabel.snp.makeConstraints { make in
             make.top.equalTo(nameLabel.snp.bottom)
-            make.leading.equalTo(nameLabel.snp.leading)
+            make.leading.trailing.equalTo(nameLabel)
         }
     }
 
