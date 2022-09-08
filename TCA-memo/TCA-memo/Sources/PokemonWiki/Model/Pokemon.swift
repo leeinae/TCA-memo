@@ -14,4 +14,5 @@ struct Pokemon: Identifiable, Equatable {
     let image: String?
     let type: String?
     var isLiked: Bool = false
+    var isPremium: Bool = true
 }

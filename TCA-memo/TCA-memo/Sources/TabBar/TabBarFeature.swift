@@ -20,6 +20,7 @@ enum TabBarType: String {
 struct TabBarState: Equatable {
     var selectedTab: TabBarType = .memoList
 
+    /// Child State
     var memoListState: MemoListState = .init(
         memos: [
             .init(memo: .init(memo: "memo 1")),

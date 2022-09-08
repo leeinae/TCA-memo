@@ -13,10 +13,18 @@ import ComposableArchitecture
 class PokemonWikiViewController: UIViewController {
     // MARK: - SubTypes
 
-    enum WikiSection: String, CaseIterable {
+    enum WikiSection: Int, CaseIterable {
         case pokemon
         case items
         case types
+
+        var header: String {
+            switch self {
+            case .pokemon: return "Pokemon"
+            case .items: return "Items"
+            case .types: return "Types"
+            }
+        }
     }
 
     // MARK: - Properties
@@ -49,6 +57,17 @@ class PokemonWikiViewController: UIViewController {
         return collectionView
     }()
 
+    private lazy var membershipSwitchButton: UISwitch = {
+        let switchButton = UISwitch()
+        switchButton.addTarget(
+            self,
+            action: #selector(toggleValueChanged(_:)),
+            for: .valueChanged
+        )
+
+        return switchButton
+    }()
+
     // MARK: - Initializer
 
     init(store: Store<WikiState, WikiAction>) {
@@ -70,8 +89,12 @@ class PokemonWikiViewController: UIViewController {
 
         setupProperty()
         setupUI()
+        setupBarButtonItem()
+
         bind()
     }
+
+    // MARK: - Setup Methods
 
     private func setupProperty() {
         view.backgroundColor = .white
@@ -98,6 +121,32 @@ class PokemonWikiViewController: UIViewController {
 
         return layout
     }
+
+    private func setupBarButtonItem() {
+        let memberLabel = UILabel()
+        memberLabel.font = UIFont.boldSystemFont(ofSize: UIFont.smallSystemFontSize)
+        memberLabel.text = "Member"
+
+        let premiumLabel = UILabel()
+        premiumLabel.font = UIFont.boldSystemFont(ofSize: UIFont.smallSystemFontSize)
+        premiumLabel.text = "Premium"
+
+        let stackView = UIStackView(
+            arrangedSubviews: [memberLabel, membershipSwitchButton, premiumLabel]
+        )
+        stackView.spacing = 8
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
+    }
+
+    // MARK: - Objc Methods
+
+    @objc
+    private func toggleValueChanged(_ sender: UISwitch) {
+        let membership: Membership = sender.isOn ? .premium : .member
+
+        viewStore.send(.user(.changeUserStatus(membership)))
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -115,7 +164,10 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
         }
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
         switch WikiSection.allCases[indexPath.section] {
         case .pokemon:
             guard let cell = collectionView.dequeueReusableCell(
@@ -148,20 +200,32 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
     func bind() {
         viewStore.publisher.pokemons
             .sink { [weak self] _ in
-                self?.collectionView.reloadSections(.init(integer: 0))
+                self?.collectionView.reloadSections(
+                    .init(integer: WikiSection.pokemon.rawValue)
+                )
             }
             .store(in: &cancellables)
 
         viewStore.publisher.items
             .sink { [weak self] _ in
-                self?.collectionView.reloadSections(.init(integer: 1))
+                self?.collectionView.reloadSections(
+                    .init(integer: WikiSection.items.rawValue)
+                )
             }
             .store(in: &cancellables)
 
         viewStore.publisher.types
             .sink { [weak self] _ in
-                self?.collectionView.reloadSections(.init(integer: 2))
+                self?.collectionView.reloadSections(
+                    .init(integer: WikiSection.types.rawValue)
+                )
             }
+            .store(in: &cancellables)
+
+        viewStore.publisher.userState
+            .userStatus
+            .map { $0 == .premium }
+            .assign(to: \.isOn, on: membershipSwitchButton)
             .store(in: &cancellables)
     }
 }
