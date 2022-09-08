@@ -28,7 +28,7 @@ struct TabBarState: Equatable {
         ],
         memoEditor: nil
     )
-    var bookmarkState: WikiState = .init()
+    var wikiState: WikiState = .init()
     var myPageState: MyPageState = .init()
 }
 
@@ -59,7 +59,7 @@ let tabBarReducer = Reducer<
         ),
     wikiReducer
         .pullback(
-            state: \.bookmarkState,
+            state: \.wikiState,
             action: /TabBarAction.bookmarkAction,
             environment: { _ in WikiEnvironment() }
         ),
