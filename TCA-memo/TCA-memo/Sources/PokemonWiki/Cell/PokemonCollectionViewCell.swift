@@ -62,6 +62,18 @@ class PokemonCollectionViewCell: UICollectionViewCell {
 
     private let image = UIImageView()
 
+    private let blurView = UIVisualEffectView(
+        effect: UIBlurEffect(style: .extraLight)
+    )
+
+    private let premiumLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 18, weight: .bold)
+        label.text = "PREMIUM 🔒"
+
+        return label
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
 
@@ -80,12 +92,14 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         image.image = nil
         nameLabel.text = nil
         statLabel.text = nil
+        blurView.isHidden = true
+        premiumLabel.isHidden = true
     }
 
     private func setupUI() {
         backgroundColor = .systemGray5
 
-        [nameLabel, statLabel, typeLabel, image, likeButton]
+        [nameLabel, statLabel, typeLabel, image, likeButton, blurView, premiumLabel]
             .forEach { contentView.addSubview($0) }
 
         nameLabel.snp.makeConstraints { make in
@@ -111,6 +125,14 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         likeButton.snp.makeConstraints { make in
             make.leading.bottom.equalToSuperview().inset(24)
         }
+
+        blurView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        premiumLabel.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
 
     private func setupPokemon(_ pokemon: Pokemon) {
@@ -118,6 +140,8 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         statLabel.text = pokemon.stat
         typeLabel.text = pokemon.type
         likeButton.isSelected = pokemon.isLiked
+        blurView.isHidden = !pokemon.isPremium
+        premiumLabel.isHidden = !pokemon.isPremium
 
         guard let url = URL(string: pokemon.image ?? "") else { return }
 

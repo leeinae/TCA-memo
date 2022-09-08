@@ -15,6 +15,9 @@ struct WikiState: Equatable {
     var pokemons: IdentifiedArrayOf<Pokemon> = []
     var items: IdentifiedArrayOf<Item> = []
     var types: IdentifiedArrayOf<TypeModel> = []
+
+    /// Child State
+    var userState: UserState = .init()
 }
 
 // MARK: - Action
@@ -27,6 +30,11 @@ enum WikiAction {
 
     case itemDataLoaded(Result<ItemResponseModel, Error>)
     case typeDataLoaded(Result<TypeResponseModel, Error>)
+
+    case changeMembership(Membership)
+
+    /// Child Action
+    case user(UserAction)
 }
 
 // MARK: - Environment
@@ -85,7 +93,6 @@ let wikiReducer = Reducer<
             isLiked: isLiked
         )
         return .none
-
     case let .itemDataLoaded(response):
         switch response {
         case let .success(result):
@@ -94,7 +101,6 @@ let wikiReducer = Reducer<
         case .failure: break /// 에러 처리
         }
         return .none
-
     case let .typeDataLoaded(response):
         switch response {
         case let .success(result):
@@ -103,5 +109,32 @@ let wikiReducer = Reducer<
         case .failure: break /// 에러 처리
         }
         return .none
+    case let .user(.changeUserStatus(membership)):
+        return Effect(value: .changeMembership(membership))
+    case let .changeMembership(membership):
+        state.pokemons.forEach { item in
+            guard let oldPokemon = state.pokemons[id: item.id] else { return }
+
+            state.pokemons[id: item.id] = Pokemon(
+                id: oldPokemon.id,
+                name: oldPokemon.name,
+                stat: oldPokemon.stat,
+                image: oldPokemon.image,
+                type: oldPokemon.type,
+                isLiked: oldPokemon.isLiked,
+                isPremium: membership == .member
+            )
+        }
+        return .none
     }
 }
+
+let wikiCoreReducer = Reducer.combine(
+    wikiReducer,
+    userReducer
+        .pullback(
+            state: \.userState,
+            action: /WikiAction.user,
+            environment: { _ in UserEnvironment() }
+        )
+)

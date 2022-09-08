@@ -9,17 +9,17 @@ import Foundation
 
 import ComposableArchitecture
 
-enum UserStatus: Equatable {
+enum Membership: Equatable {
     case member
     case premium
 }
 
 enum UserAction: Equatable {
-    case changeUserStatus(UserStatus)
+    case changeUserStatus(Membership)
 }
 
 struct UserState: Equatable {
-    var userStatus: UserStatus = .member
+    var userStatus: Membership = .member
 }
 
 struct UserEnvironment {}
