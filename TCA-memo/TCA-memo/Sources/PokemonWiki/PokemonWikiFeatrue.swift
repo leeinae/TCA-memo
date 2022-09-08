@@ -128,13 +128,3 @@ let wikiReducer = Reducer<
         return .none
     }
 }
-
-let wikiCoreReducer = Reducer.combine(
-    wikiReducer,
-    userReducer
-        .pullback(
-            state: \.userState,
-            action: /WikiAction.user,
-            environment: { _ in UserEnvironment() }
-        )
-)
