@@ -98,7 +98,7 @@ class PokemonWikiViewController: UIViewController {
 
     private func setupProperty() {
         view.backgroundColor = .white
-        title = "Pokemon Wiki"
+        title = viewStore.title.rawValue
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 

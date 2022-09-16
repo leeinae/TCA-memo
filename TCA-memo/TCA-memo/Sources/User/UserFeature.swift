@@ -24,13 +24,14 @@ struct UserState: Equatable {
 
 struct UserEnvironment {}
 
-let userReducer = Reducer<UserState, UserAction, UserEnvironment>
-    .combine(
-        Reducer { state, action, environment in
-            switch action {
-            case let .changeUserStatus(status):
-                state.userStatus = status
-                return .none
-            }
-        }
-    )
+let userReducer = Reducer<
+    UserState,
+    UserAction,
+    UserEnvironment
+> { state, action, environment in
+    switch action {
+    case let .changeUserStatus(status):
+        state.userStatus = status
+        return .none
+    }
+}

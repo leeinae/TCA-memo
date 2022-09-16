@@ -45,7 +45,7 @@ class MemoListViewController: UITableViewController {
     }
 
     func setupProperty() {
-        title = "Memo"
+        title = viewStore.title.rawValue
         view.backgroundColor = .white
 
         navigationController?.navigationBar.prefersLargeTitles = true

@@ -9,7 +9,9 @@ import ComposableArchitecture
 
 // MARK: - State
 
-struct MyPageState: Equatable {}
+struct MyPageState: Equatable {
+    let title: TabBarType = .mypage
+}
 
 // MARK: - Action
 

@@ -30,7 +30,11 @@ struct MemoEditorEnvironment {}
 
 // MARK: - Reducer
 
-let memoEditorReducer = Reducer<MemoEditorState, MemoEditorAction, MemoEditorEnvironment> { state, action, _ in
+let memoEditorReducer = Reducer<
+    MemoEditorState,
+    MemoEditorAction,
+    MemoEditorEnvironment
+> { state, action, _ in
     switch action {
     case let .saveMemo(memo):
         state.memo = memo
