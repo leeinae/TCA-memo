@@ -11,15 +11,13 @@ import ComposableArchitecture
 
 enum TabBarType: String {
     case memoList = "Memo"
-    case bookmark = "Bookmark"
+    case wiki = "Pokemon Wiki"
     case mypage = "My Page"
 }
 
 // MARK: - State
 
 struct TabBarState: Equatable {
-    var selectedTab: TabBarType = .memoList
-
     /// Child State
     var memoListState: MemoListState = .init(
         memos: [
@@ -37,7 +35,7 @@ struct TabBarState: Equatable {
 
 enum TabBarAction {
     case memoListAction(MemoListAction)
-    case bookmarkAction(WikiAction)
+    case wikiAction(WikiAction)
     case myPageAction(MyPageAction)
 }
 
@@ -61,7 +59,7 @@ let tabBarReducer = Reducer<
     wikiReducer
         .pullback(
             state: \.wikiState,
-            action: /TabBarAction.bookmarkAction,
+            action: /TabBarAction.wikiAction,
             environment: { _ in WikiEnvironment() }
         ),
     myPageReducer
@@ -74,7 +72,7 @@ let tabBarReducer = Reducer<
         switch action {
         case .memoListAction:
             return .none
-        case .bookmarkAction:
+        case .wikiAction:
             return .none
         case .myPageAction:
             return .none

@@ -46,7 +46,7 @@ class TabBarViewController: UITabBarController {
                 store: wikiStore)
         )
         pokemonWikiViewController.tabBarItem = .init(
-            title: TabBarType.bookmark.rawValue,
+            title: TabBarType.wiki.rawValue,
             image: .init(systemName: "bookmark"),
             selectedImage: .init(systemName: "bookmark.fill")
         )
@@ -80,7 +80,7 @@ extension TabBarViewController {
     private var wikiStore: Store<WikiState, WikiAction> {
         store.scope(
             state: \.wikiState,
-            action: TabBarAction.bookmarkAction
+            action: TabBarAction.wikiAction
         )
     }
 
