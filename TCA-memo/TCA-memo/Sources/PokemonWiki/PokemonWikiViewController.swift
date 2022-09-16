@@ -227,6 +227,17 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
             .map { $0 == .premium }
             .assign(to: \.isOn, on: membershipSwitchButton)
             .store(in: &cancellables)
+
+        viewStore.publisher.refresh
+            .filter { $0 }
+            .sink { [weak self] _ in
+                self?.collectionView.reloadSections(
+                    .init(integer: WikiSection.pokemon.rawValue)
+                )
+
+                self?.viewStore.send(.refresh(false))
+            }
+            .store(in: &cancellables)
     }
 }
 
