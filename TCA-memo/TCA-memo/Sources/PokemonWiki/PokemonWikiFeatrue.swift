@@ -16,6 +16,8 @@ struct WikiState: Equatable {
     var items: IdentifiedArrayOf<Item> = []
     var types: IdentifiedArrayOf<TypeModel> = []
 
+    var refresh: Bool = false
+
     /// Child State
     var userState: UserState = .init()
 }
@@ -31,7 +33,7 @@ enum WikiAction {
     case itemDataLoaded(Result<ItemResponseModel, Error>)
     case typeDataLoaded(Result<TypeResponseModel, Error>)
 
-    case changeMembership(Membership)
+    case refresh(Bool)
 
     /// Child Action
     case user(UserAction)
@@ -90,7 +92,8 @@ let wikiReducer = Reducer<
             stat: oldPokemon.stat,
             image: oldPokemon.image,
             type: oldPokemon.type,
-            isLiked: isLiked
+            isLiked: isLiked,
+            isPremium: oldPokemon.isPremium
         )
         return .none
     case let .itemDataLoaded(response):
@@ -110,21 +113,10 @@ let wikiReducer = Reducer<
         }
         return .none
     case let .user(.changeUserStatus(membership)):
-        return Effect(value: .changeMembership(membership))
-    case let .changeMembership(membership):
-        state.pokemons.forEach { item in
-            guard let oldPokemon = state.pokemons[id: item.id] else { return }
-
-            state.pokemons[id: item.id] = Pokemon(
-                id: oldPokemon.id,
-                name: oldPokemon.name,
-                stat: oldPokemon.stat,
-                image: oldPokemon.image,
-                type: oldPokemon.type,
-                isLiked: oldPokemon.isLiked,
-                isPremium: membership == .member
-            )
-        }
+        state.userState.userStatus = membership
+        return Effect(value: .refresh(true))
+    case let .refresh(isRefresh):
+        state.refresh = isRefresh
         return .none
     }
 }
