@@ -9,7 +9,7 @@ import Foundation
 
 import ComposableArchitecture
 
-enum Membership: Equatable {
+enum Membership: String, Equatable {
     case member
     case premium
 }

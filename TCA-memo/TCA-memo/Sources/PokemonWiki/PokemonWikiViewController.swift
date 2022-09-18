@@ -29,8 +29,8 @@ class PokemonWikiViewController: UIViewController {
 
     // MARK: - Properties
 
-    private let store: Store<WikiState, WikiAction>
-    private let viewStore: ViewStore<WikiState, WikiAction>
+    private let store: Store<MergeState<WikiState>, WikiAction>
+    private let viewStore: ViewStore<MergeState<WikiState>, WikiAction>
     private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - UI Components
@@ -70,7 +70,7 @@ class PokemonWikiViewController: UIViewController {
 
     // MARK: - Initializer
 
-    init(store: Store<WikiState, WikiAction>) {
+    init(store: Store<MergeState<WikiState>, WikiAction>) {
         self.store = store
         viewStore = ViewStore(store)
 
@@ -98,7 +98,7 @@ class PokemonWikiViewController: UIViewController {
 
     private func setupProperty() {
         view.backgroundColor = .white
-        title = viewStore.title.rawValue
+        title = viewStore.local.title.rawValue
         navigationController?.navigationBar.prefersLargeTitles = true
     }
 
@@ -158,9 +158,9 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
 
     func collectionView(_: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch WikiSection.allCases[section] {
-        case .pokemon: return viewStore.pokemons.count
-        case .items: return viewStore.items.count
-        case .types: return viewStore.types.count
+        case .pokemon: return viewStore.local.pokemons.count
+        case .items: return viewStore.local.items.count
+        case .types: return viewStore.local.types.count
         }
     }
 
@@ -174,7 +174,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                 withReuseIdentifier: String(describing: PokemonCollectionViewCell.self),
                 for: indexPath
             ) as? PokemonCollectionViewCell else { return UICollectionViewCell() }
-            cell.pokemon = viewStore.pokemons[indexPath.row]
+            cell.pokemon = viewStore.local.pokemons[indexPath.row]
             cell.viewStore = viewStore
 
             return cell
@@ -183,7 +183,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                 withReuseIdentifier: String(describing: ItemCollectionViewCell.self),
                 for: indexPath
             ) as? ItemCollectionViewCell else { return UICollectionViewCell() }
-            cell.item = viewStore.items[indexPath.row]
+            cell.item = viewStore.local.items[indexPath.row]
 
             return cell
         case .types:
@@ -191,7 +191,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                 withReuseIdentifier: String(describing: TypeCollectionViewCell.self),
                 for: indexPath
             ) as? TypeCollectionViewCell else { return UICollectionViewCell() }
-            cell.type = viewStore.types[indexPath.row]
+            cell.type = viewStore.local.types[indexPath.row]
 
             return cell
         }
@@ -222,7 +222,7 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
             }
             .store(in: &cancellables)
 
-        viewStore.publisher.refresh
+        viewStore.publisher.local.refresh
             .filter { $0 }
             .sink { [weak self] _ in
                 self?.collectionView.reloadSections(

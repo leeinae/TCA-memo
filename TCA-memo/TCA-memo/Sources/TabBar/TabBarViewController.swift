@@ -10,10 +10,10 @@ import UIKit
 import ComposableArchitecture
 
 class TabBarViewController: UITabBarController {
-    let store: Store<TabBarState, TabBarAction>
-    let viewStore: ViewStore<TabBarState, TabBarAction>
+    let store: Store<MergeState<TabBarState>, TabBarAction>
+    let viewStore: ViewStore<MergeState<TabBarState>, TabBarAction>
 
-    init(store: Store<TabBarState, TabBarAction>) {
+    init(store: Store<MergeState<TabBarState>, TabBarAction>) {
         self.store = store
         viewStore = ViewStore(store)
 
@@ -43,7 +43,11 @@ class TabBarViewController: UITabBarController {
 
         let pokemonWikiViewController = UINavigationController(
             rootViewController: PokemonWikiViewController(
-                store: wikiStore)
+                store: store.scope(
+                    state: \.wikiState,
+                    action: TabBarAction.wikiAction
+                )
+            )
         )
         pokemonWikiViewController.tabBarItem = .init(
             title: TabBarType.wiki.rawValue,
@@ -51,7 +55,11 @@ class TabBarViewController: UITabBarController {
             selectedImage: .init(systemName: "bookmark.fill")
         )
 
-        let myPageViewController = MyPageViewController()
+        let myPageViewController = MyPageViewController(
+            store: store.scope(
+                state: \.myPageState,
+                action: TabBarAction.myPageAction
+            ))
         myPageViewController.tabBarItem = .init(
             title: TabBarType.mypage.rawValue,
             image: .init(systemName: "person"),
@@ -70,21 +78,21 @@ class TabBarViewController: UITabBarController {
 extension TabBarViewController {
     private var memoListStore: Store<MemoListState, MemoListAction> {
         store.scope(
-            state: \.memoListState,
+            state: \.local.memoListState,
             action: TabBarAction.memoListAction
         )
     }
 
     private var wikiStore: Store<WikiState, WikiAction> {
         store.scope(
-            state: \.wikiState,
+            state: \.local.wikiState,
             action: TabBarAction.wikiAction
         )
     }
 
     private var myPageStore: Store<MyPageState, MyPageAction> {
         store.scope(
-            state: \.myPageState,
+            state: \.local.myPageState,
             action: TabBarAction.myPageAction
         )
     }
