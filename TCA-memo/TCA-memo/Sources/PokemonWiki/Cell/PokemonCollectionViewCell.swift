@@ -141,8 +141,8 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         typeLabel.text = pokemon.type
         likeButton.isSelected = pokemon.isLiked
         
-        blurView.isHidden = viewStore?.userState.userStatus == .premium
-        premiumLabel.isHidden = viewStore?.userState.userStatus == .premium
+        blurView.isHidden = viewStore?.membership == .premium
+        premiumLabel.isHidden = viewStore?.membership == .premium
 
         guard let url = URL(string: pokemon.image ?? "") else { return }
 

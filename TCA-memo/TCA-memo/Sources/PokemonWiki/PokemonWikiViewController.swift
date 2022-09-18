@@ -145,7 +145,7 @@ class PokemonWikiViewController: UIViewController {
     private func toggleValueChanged(_ sender: UISwitch) {
         let membership: Membership = sender.isOn ? .premium : .member
 
-        viewStore.send(.user(.changeUserStatus(membership)))
+        viewStore.send(.changeUserStateSwitch(membership))
     }
 }
 
@@ -220,12 +220,6 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                     .init(integer: WikiSection.types.rawValue)
                 )
             }
-            .store(in: &cancellables)
-
-        viewStore.publisher.userState
-            .userStatus
-            .map { $0 == .premium }
-            .assign(to: \.isOn, on: membershipSwitchButton)
             .store(in: &cancellables)
 
         viewStore.publisher.refresh

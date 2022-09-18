@@ -65,8 +65,6 @@ class TabBarViewController: UITabBarController {
         ],
         animated: true)
     }
-
-    func bind() {}
 }
 
 extension TabBarViewController {
