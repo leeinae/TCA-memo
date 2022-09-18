@@ -14,14 +14,13 @@ import ComposableArchitecture
 struct WikiState: Equatable {
     let title: TabBarType = .wiki
 
+    var membership: Membership
+
     var pokemons: IdentifiedArrayOf<Pokemon> = []
     var items: IdentifiedArrayOf<Item> = []
     var types: IdentifiedArrayOf<TypeModel> = []
 
     var refresh: Bool = false
-
-    /// Child State
-    var userState: UserState = .init()
 }
 
 // MARK: - Action
@@ -35,10 +34,8 @@ enum WikiAction {
     case itemDataLoaded(Result<ItemResponseModel, Error>)
     case typeDataLoaded(Result<TypeResponseModel, Error>)
 
+    case changeUserStateSwitch(Membership)
     case refresh(Bool)
-
-    /// Child Action
-    case user(UserAction)
 }
 
 // MARK: - Environment
@@ -58,12 +55,6 @@ let wikiReducer = Reducer<
     WikiAction,
     WikiEnvironment
 >.combine(
-    userReducer
-        .pullback(
-            state: \.userState,
-            action: /WikiAction.user,
-            environment: { _ in UserEnvironment() }
-        ),
     Reducer { state, action, environment in
         switch action {
         case .viewDidLoad:
@@ -83,7 +74,7 @@ let wikiReducer = Reducer<
                         .fetchType(id: $0)
                         .catchToEffect(WikiAction.typeDataLoaded)
                 }]
-                .flatMap { $0 }
+                    .flatMap { $0 }
             )
         case let .pokemonDataLoaded(response):
             switch response {
@@ -121,8 +112,8 @@ let wikiReducer = Reducer<
             case .failure: break /// 에러 처리
             }
             return .none
-        case let .user(.changeUserStatus(membership)):
-            return Effect(value: .refresh(true))
+        case .changeUserStateSwitch:
+            return .none
         case let .refresh(isRefresh):
             state.refresh = isRefresh
             return .none

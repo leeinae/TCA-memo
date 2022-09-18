@@ -27,8 +27,10 @@ struct TabBarState: Equatable {
         ],
         memoEditor: nil
     )
-    var wikiState: WikiState = .init()
+    var wikiState: WikiState = .init(membership: .member)
     var myPageState: MyPageState = .init()
+
+    var userState: UserState = .init()
 }
 
 // MARK: - Action
@@ -37,6 +39,8 @@ enum TabBarAction {
     case memoListAction(MemoListAction)
     case wikiAction(WikiAction)
     case myPageAction(MyPageAction)
+    
+    case userAction(UserAction)
 }
 
 // MARK: - Environment
@@ -68,14 +72,25 @@ let tabBarReducer = Reducer<
             action: /TabBarAction.myPageAction,
             environment: { _ in MyPageEnvironment() }
         ),
-    Reducer { _, action, _ in
+    userReducer
+        .pullback(
+            state: \.userState,
+            action: /TabBarAction.userAction,
+            environment: { _ in UserEnvironment() }
+        ),
+    Reducer { state, action, _ in
         switch action {
         case .memoListAction:
             return .none
+        case let .wikiAction(.changeUserStateSwitch(membership)):
+            return Effect(value: .userAction(.changeUserStatus(membership)))
         case .wikiAction:
             return .none
         case .myPageAction:
             return .none
+        case let .userAction(.changeUserStatus(membership)):
+            state.wikiState.membership = membership
+            return Effect(value: .wikiAction(.refresh(true)))
         }
     }
 )
