@@ -174,8 +174,8 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                 withReuseIdentifier: String(describing: PokemonCollectionViewCell.self),
                 for: indexPath
             ) as? PokemonCollectionViewCell else { return UICollectionViewCell() }
-            cell.pokemon = viewStore.local.pokemons[indexPath.row]
             cell.viewStore = viewStore
+            cell.pokemon = viewStore.local.pokemons[indexPath.row]
 
             return cell
         case .items:
