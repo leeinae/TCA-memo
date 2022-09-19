@@ -29,8 +29,8 @@ class PokemonWikiViewController: UIViewController {
 
     // MARK: - Properties
 
-    private let store: Store<MergeState<WikiState>, WikiAction>
-    private let viewStore: ViewStore<MergeState<WikiState>, WikiAction>
+    private let store: Store<BaseState<WikiState>, WikiAction>
+    private let viewStore: ViewStore<BaseState<WikiState>, WikiAction>
     private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - UI Components
@@ -70,7 +70,7 @@ class PokemonWikiViewController: UIViewController {
 
     // MARK: - Initializer
 
-    init(store: Store<MergeState<WikiState>, WikiAction>) {
+    init(store: Store<BaseState<WikiState>, WikiAction>) {
         self.store = store
         viewStore = ViewStore(store)
 

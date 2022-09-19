@@ -14,8 +14,6 @@ import ComposableArchitecture
 struct WikiState: Equatable {
     let title: TabBarType = .wiki
 
-    var membership: Membership
-
     var pokemons: IdentifiedArrayOf<Pokemon> = []
     var items: IdentifiedArrayOf<Item> = []
     var types: IdentifiedArrayOf<TypeModel> = []
@@ -51,7 +49,7 @@ struct WikiEnvironment {
 // MARK: - Reducer
 
 let wikiReducer = Reducer<
-    MergeState<WikiState>,
+    BaseState<WikiState>,
     WikiAction,
     WikiEnvironment
 >.combine(
@@ -113,7 +111,7 @@ let wikiReducer = Reducer<
             }
             return .none
         case let .changeUserStateSwitch(membership):
-            state.global.membership = membership
+            state.shared.membership = membership
             return .none
         case let .refresh(isRefresh):
             state.local.refresh = isRefresh

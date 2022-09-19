@@ -13,8 +13,8 @@ import ComposableArchitecture
 class MyPageViewController: UIViewController {
     // MARK: - Properties
 
-    private let store: Store<MergeState<MyPageState>, MyPageAction>
-    private let viewStore: ViewStore<MergeState<MyPageState>, MyPageAction>
+    private let store: Store<BaseState<MyPageState>, MyPageAction>
+    private let viewStore: ViewStore<BaseState<MyPageState>, MyPageAction>
     private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - UI Components
@@ -28,7 +28,7 @@ class MyPageViewController: UIViewController {
 
     // MARK: - Initializer
 
-    init(store: Store<MergeState<MyPageState>, MyPageAction>) {
+    init(store: Store<BaseState<MyPageState>, MyPageAction>) {
         self.store = store
         viewStore = ViewStore(store)
 
@@ -63,7 +63,7 @@ class MyPageViewController: UIViewController {
     }
 
     private func bind() {
-        viewStore.publisher.global.membership
+        viewStore.publisher.shared.membership
             .map { $0.rawValue }
             .assign(to: \.text, on: membershipLabel)
             .store(in: &cancellables)

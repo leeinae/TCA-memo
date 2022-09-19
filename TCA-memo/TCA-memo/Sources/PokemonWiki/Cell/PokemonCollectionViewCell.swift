@@ -23,7 +23,7 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         }
     }
 
-    var viewStore: ViewStore<MergeState<WikiState>, WikiAction>?
+    var viewStore: ViewStore<BaseState<WikiState>, WikiAction>?
     private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - UI Components
@@ -141,8 +141,8 @@ class PokemonCollectionViewCell: UICollectionViewCell {
         typeLabel.text = pokemon.type
         likeButton.isSelected = pokemon.isLiked
 
-        blurView.isHidden = viewStore?.state.global.membership == .premium
-        premiumLabel.isHidden = viewStore?.state.global.membership == .premium
+        blurView.isHidden = viewStore?.shared.membership == .premium
+        premiumLabel.isHidden = viewStore?.shared.membership == .premium
 
         guard let url = URL(string: pokemon.image ?? "") else { return }
 

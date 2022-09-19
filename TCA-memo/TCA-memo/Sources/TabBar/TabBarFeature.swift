@@ -27,8 +27,7 @@ struct TabBarState: Equatable {
         ],
         memoEditor: nil
     )
-    // FIXME: - global state로 초기화 ..
-    var wikiState: WikiState = .init(membership: .member)
+    var wikiState: WikiState = .init()
     var myPageState: MyPageState = .init()
 }
 
@@ -47,7 +46,7 @@ struct TabBarEnvironment {}
 // MARK: - Reducer
 
 let tabBarReducer = Reducer<
-    MergeState<TabBarState>,
+    BaseState<TabBarState>,
     TabBarAction,
     TabBarEnvironment
 >.combine(
@@ -59,10 +58,10 @@ let tabBarReducer = Reducer<
         ),
     wikiReducer
         .pullback(
-            state: \.wikiState,
+            state: \BaseState<TabBarState>.wikiState,
             action: /TabBarAction.wikiAction,
             environment: { _ in WikiEnvironment() }
-        ) as Reducer<MergeState<TabBarState>, TabBarAction, TabBarEnvironment>,
+        ),
     myPageReducer
         .pullback(
             state: \.local.myPageState,
@@ -74,7 +73,7 @@ let tabBarReducer = Reducer<
         case .memoListAction:
             return .none
         case let .wikiAction(.changeUserStateSwitch(membership)):
-            state.global.membership = membership
+            state.shared.membership = membership
             return .none
         case .wikiAction:
             return .none
