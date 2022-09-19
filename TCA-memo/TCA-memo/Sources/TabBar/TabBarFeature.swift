@@ -58,13 +58,13 @@ let tabBarReducer = Reducer<
         ),
     wikiReducer
         .pullback(
-            state: \BaseState<TabBarState>.wikiState,
+            state: \.local.wikiState,
             action: /TabBarAction.wikiAction,
             environment: { _ in WikiEnvironment() }
         ),
     myPageReducer
         .pullback(
-            state: \BaseState<TabBarState>.myPageState,
+            state: \.local.myPageState,
             action: /TabBarAction.myPageAction,
             environment: { _ in MyPageEnvironment() }
         ),
