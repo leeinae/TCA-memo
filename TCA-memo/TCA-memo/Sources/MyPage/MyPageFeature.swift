@@ -26,7 +26,7 @@ struct MyPageEnvironment {}
 // MARK: - Reducer
 
 let myPageReducer = Reducer<
-    BaseState<MyPageState>,
+    MyPageState,
     MyPageAction,
     MyPageEnvironment
 > { state, action, environment in

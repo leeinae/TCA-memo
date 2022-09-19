@@ -49,7 +49,7 @@ struct WikiEnvironment {
 // MARK: - Reducer
 
 let wikiReducer = Reducer<
-    BaseState<WikiState>,
+    WikiState,
     WikiAction,
     WikiEnvironment
 >.combine(
@@ -78,13 +78,13 @@ let wikiReducer = Reducer<
             switch response {
             case let .success(result):
                 let pokemon = result.convertToModel()
-                state.local.pokemons.append(pokemon)
+                state.pokemons.append(pokemon)
             case .failure: break /// 에러 처리
             }
             return .none
         case let .tapPokemonLikeButton(index, isLiked):
-            guard let oldPokemon = state.local.pokemons[id: index] else { return .none }
-            state.local.pokemons[id: index] = Pokemon(
+            guard let oldPokemon = state.pokemons[id: index] else { return .none }
+            state.pokemons[id: index] = Pokemon(
                 id: oldPokemon.id,
                 name: oldPokemon.name,
                 stat: oldPokemon.stat,
@@ -98,7 +98,7 @@ let wikiReducer = Reducer<
             switch response {
             case let .success(result):
                 let item = result.convertToModel()
-                state.local.items.append(item)
+                state.items.append(item)
             case .failure: break /// 에러 처리
             }
             return .none
@@ -106,15 +106,14 @@ let wikiReducer = Reducer<
             switch response {
             case let .success(result):
                 let type = result.convertToModel()
-                state.local.types.append(type)
+                state.types.append(type)
             case .failure: break /// 에러 처리
             }
             return .none
-        case let .changeUserStateSwitch(membership):
-            state.shared.membership = membership
+        case .changeUserStateSwitch:
             return .none
         case let .refresh(isRefresh):
-            state.local.refresh = isRefresh
+            state.refresh = isRefresh
             return .none
         }
     }
