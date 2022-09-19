@@ -16,8 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        let tabBarStore: Store<MergeState<TabBarState>, TabBarAction> = .init(
-            initialState: .init(local: TabBarState(), global: .init()),
+        let tabBarStore: Store<BaseState<TabBarState>, TabBarAction> = .init(
+            initialState: .init(local: TabBarState(), shared: .init()),
             reducer: tabBarReducer,
             environment: TabBarEnvironment()
         )

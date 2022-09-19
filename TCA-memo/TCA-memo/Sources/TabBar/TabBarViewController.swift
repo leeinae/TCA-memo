@@ -10,10 +10,10 @@ import UIKit
 import ComposableArchitecture
 
 class TabBarViewController: UITabBarController {
-    let store: Store<MergeState<TabBarState>, TabBarAction>
-    let viewStore: ViewStore<MergeState<TabBarState>, TabBarAction>
+    let store: Store<BaseState<TabBarState>, TabBarAction>
+    let viewStore: ViewStore<BaseState<TabBarState>, TabBarAction>
 
-    init(store: Store<MergeState<TabBarState>, TabBarAction>) {
+    init(store: Store<BaseState<TabBarState>, TabBarAction>) {
         self.store = store
         viewStore = ViewStore(store)
 
@@ -43,10 +43,7 @@ class TabBarViewController: UITabBarController {
 
         let pokemonWikiViewController = UINavigationController(
             rootViewController: PokemonWikiViewController(
-                store: store.scope(
-                    state: \.wikiState,
-                    action: TabBarAction.wikiAction
-                )
+                store: wikiStore
             )
         )
         pokemonWikiViewController.tabBarItem = .init(
@@ -83,9 +80,9 @@ extension TabBarViewController {
         )
     }
 
-    private var wikiStore: Store<WikiState, WikiAction> {
+    private var wikiStore: Store<BaseState<WikiState>, WikiAction> {
         store.scope(
-            state: \.local.wikiState,
+            state: \.wikiState,
             action: TabBarAction.wikiAction
         )
     }
