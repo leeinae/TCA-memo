@@ -87,9 +87,9 @@ extension TabBarViewController {
         )
     }
 
-    private var myPageStore: Store<MyPageState, MyPageAction> {
+    private var myPageStore: Store<BaseState<MyPageState>, MyPageAction> {
         store.scope(
-            state: \.local.myPageState,
+            state: \.myPageState,
             action: TabBarAction.myPageAction
         )
     }
