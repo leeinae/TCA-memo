@@ -26,6 +26,17 @@ class MyPageViewController: UIViewController {
         return label
     }()
 
+    let membershipSwitchButton: UISwitch = {
+        let switchButton = UISwitch()
+        switchButton.addTarget(
+            self,
+            action: #selector(toggleValueChanged(_:)),
+            for: .valueChanged
+        )
+
+        return switchButton
+    }()
+
     // MARK: - Initializer
 
     init(store: Store<BaseState<MyPageState>, MyPageAction>) {
@@ -56,9 +67,15 @@ class MyPageViewController: UIViewController {
 
     private func setupUI() {
         view.addSubview(membershipLabel)
+        view.addSubview(membershipSwitchButton)
 
         membershipLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+
+        membershipSwitchButton.snp.makeConstraints { make in
+            make.top.equalTo(membershipLabel.snp.bottom).offset(50)
+            make.centerX.equalToSuperview()
         }
     }
 
@@ -67,5 +84,17 @@ class MyPageViewController: UIViewController {
             .map { $0.rawValue }
             .assign(to: \.text, on: membershipLabel)
             .store(in: &cancellables)
+
+        viewStore.publisher.shared.membership
+            .map { $0 == .premium }
+            .assign(to: \.isOn, on: membershipSwitchButton)
+            .store(in: &cancellables)
+    }
+
+    @objc
+    private func toggleValueChanged(_ sender: UISwitch) {
+        let membership: Membership = sender.isOn ? .premium : .member
+
+        viewStore.send(.changeUserStateSwitch(membership))
     }
 }
