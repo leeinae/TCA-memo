@@ -15,7 +15,9 @@ struct MyPageState: Equatable {
 
 // MARK: - Action
 
-enum MyPageAction {}
+enum MyPageAction {
+    case changeUserStateSwitch(Membership)
+}
 
 // MARK: - Environment
 
@@ -24,9 +26,12 @@ struct MyPageEnvironment {}
 // MARK: - Reducer
 
 let myPageReducer = Reducer<
-    MyPageState,
+    BaseState<MyPageState>,
     MyPageAction,
     MyPageEnvironment
 > { state, action, environment in
-    .none
+    switch action {
+    case .changeUserStateSwitch:
+        return .none
+    }
 }

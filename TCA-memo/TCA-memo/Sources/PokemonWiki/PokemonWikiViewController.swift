@@ -232,6 +232,11 @@ extension PokemonWikiViewController: UICollectionViewDataSource {
                 self?.viewStore.send(.refresh(false))
             }
             .store(in: &cancellables)
+
+        viewStore.publisher.shared.membership
+            .map { $0 == .premium }
+            .assign(to: \.isOn, on: membershipSwitchButton)
+            .store(in: &cancellables)
     }
 }
 

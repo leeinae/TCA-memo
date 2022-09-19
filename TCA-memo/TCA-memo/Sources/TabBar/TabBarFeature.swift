@@ -64,7 +64,7 @@ let tabBarReducer = Reducer<
         ),
     myPageReducer
         .pullback(
-            state: \.local.myPageState,
+            state: \BaseState<TabBarState>.myPageState,
             action: /TabBarAction.myPageAction,
             environment: { _ in MyPageEnvironment() }
         ),
@@ -76,6 +76,9 @@ let tabBarReducer = Reducer<
             state.shared.membership = membership
             return .none
         case .wikiAction:
+            return .none
+        case let .myPageAction(.changeUserStateSwitch(membership)):
+            state.shared.membership = membership
             return .none
         case .myPageAction:
             return .none
